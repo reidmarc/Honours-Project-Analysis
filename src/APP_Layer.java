@@ -8,7 +8,7 @@ public class APP_Layer implements APP_Layer_Interface
     private final int targetWidth = 5;
     private final double startingX = 11;
     private final double startingY = 100;
-    private final int numberOfUsers = 11;
+    private final int numberOfUsers = 11; // Query the collection table for total number of collections?
 
     private boolean isItTheFirstSector = true;
     private double previousX;
@@ -24,16 +24,15 @@ public class APP_Layer implements APP_Layer_Interface
     public APP_Layer(DATA_Layer dataLayer)
     {
         this.dataLayer = dataLayer;
+        setupDatabase();
 
 
         setupIndexOfDifficulty(); // Step 1
 
         setupIndexOfPerformance(); // Step 2
-
-
-
-
     }
+
+
 
 
 
@@ -93,9 +92,6 @@ public class APP_Layer implements APP_Layer_Interface
             listOfTimings.add(dataLayer.getSectorTimes(i));
         }
 
-
-
-
         /*
         // TESTING
         for (int z = 0; z < listOfTimings.size(); z++)
@@ -144,7 +140,7 @@ public class APP_Layer implements APP_Layer_Interface
                     // Adds the Sector Number
                     listOfIndexOfPerformance.add(listOfIndexOfDifficulty.get(y + 1));
 
-                    // Adds the Index of Performance
+                    // Adds the Index of Performance value
                     listOfIndexOfPerformance.add(calculateTheIndexOfPerformance(listOfIndexOfDifficulty.get(y + 2), listOfTimings.get(z).get(y + 2)));
                 }
             }
@@ -153,20 +149,32 @@ public class APP_Layer implements APP_Layer_Interface
             listOfIndexOfPerformance.clear();
         }
 
-        //System.out.println(listOfListOfIndexOfPerformance.get(1).get(1));
+
 
 
 
 
         for (int i = 0; i < listOfListOfIndexOfPerformance.size(); i++)
         {
-            for (int j = 0; j < listOfListOfIndexOfPerformance.get(i).size(); j++)
+            for (int j = 0; j < listOfListOfIndexOfPerformance.get(i).size(); j = j + 3)
             {
-                System.out.println(listOfListOfIndexOfPerformance.get(i).get(j));
+                System.out.println("Collection: " + (i + 1));
+                System.out.println("Pattern: " + listOfListOfIndexOfPerformance.get(i).get(j));
+                System.out.println("Sector: " + listOfListOfIndexOfPerformance.get(i).get(j + 1));
+                System.out.println("IoP: " + listOfListOfIndexOfPerformance.get(i).get(j + 2));
+
+                if (dataLayer.storeUserIndexOfPerformance((i + 1), listOfListOfIndexOfPerformance.get(i).get(j).intValue(), listOfListOfIndexOfPerformance.get(i).get(j + 1).intValue(), listOfListOfIndexOfPerformance.get(i).get(j + 2)))
+                {
+                    // ADDED
+
+                }
+                else
+                {
+                    // NOT ADDED
+                }
+
             }
         }
-
-
     }
 
 
@@ -209,6 +217,20 @@ public class APP_Layer implements APP_Layer_Interface
         //System.out.println("Index of Performance: " + IndexDifficulty / MovementTime);
         return (IndexDifficulty / MovementTime);
 
+    }
+
+    // Calls the method `addNewDatabaseTables` from the datalayer
+    private void setupDatabase()
+    {
+        if (dataLayer.addNewDatabaseTables())
+        {
+            System.out.println("Database Setup SUCCESSFUL");
+
+        }
+        else
+        {
+            System.out.println("Database Setup UNSUCCESSFUL");
+        }
     }
 
 }

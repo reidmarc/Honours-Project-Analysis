@@ -4,13 +4,12 @@ import java.util.ArrayList;
 
 public class DATA_Layer implements DATA_Layer_Interface
 {
-
     private Connection connection;
     private Statement statement;
 
-    private boolean dataExists = false;
+    //private boolean dataExists = false;
 
-    private int count = 0;
+    //private int count = 0;
 
 
     // Default Constructor
@@ -19,6 +18,64 @@ public class DATA_Layer implements DATA_Layer_Interface
 
     }
 
+    // Adds the new tables need to store the results from calculations
+    public boolean addNewDatabaseTables()
+    {
+        try
+        {
+            connection = connectToDatabase();
+
+            // Create a new SQL statement
+            statement = connection.createStatement();
+
+            // Creates the table `SectorIndexOfDifficulty`
+            statement.executeUpdate("DROP TABLE IF EXISTS `SectorIndexOfDifficulty`;");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS `SectorIndexOfDifficulty` " +
+                    "( `SectorIODID`	INTEGER AUTO_INCREMENT, " +
+                    " `PatternRef`	INTEGER, " +
+                    " `SectorNumber`	INTEGER, " +
+                    " `Distance`	REAL, " +
+                    " `IndexOfDifficulty`	REAL, " +
+                    " PRIMARY KEY (`SectorIODID`), " +
+                    " FOREIGN KEY(`PatternRef`) REFERENCES `Pattern`(`PatternID`) " +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+
+            // Creates the table `SectorIndexOfPerformance`
+            statement.executeUpdate("DROP TABLE IF EXISTS `SectorIndexOfPerformance`;");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS `SectorIndexOfPerformance` " +
+                    "( `SectorIOPID`	INTEGER AUTO_INCREMENT, " +
+                    " `CollectionRef`	INTEGER, " +
+                    " `PatternRef`	INTEGER, " +
+                    " `SectorNumber`	INTEGER, " +
+                    " `IndexOfPerformance`	REAL, " +
+                    " PRIMARY KEY (`SectorIOPID`), " +
+                    " FOREIGN KEY(`PatternRef`) REFERENCES `Pattern`(`PatternID`), " +
+                    " FOREIGN KEY(`CollectionRef`) REFERENCES `Collection`(`CollectionID`) " +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+
+            statement.close();
+            connection.close();
+
+            return true;
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return false;
+    }
+
+    // Get the sector times for each collection and adds them to a list
     public ArrayList getSectorTimes(int collection)
     {
         ArrayList<Double> timings = new ArrayList<>();
@@ -204,50 +261,25 @@ public class DATA_Layer implements DATA_Layer_Interface
 
     }
 
-    public boolean storePatternIndexOfDifficulty(int pattern, int sector, double distance, double indexOfDifficulty)
+    public boolean storeUserIndexOfPerformance(int collection, int pattern, int sector, double indexOfPerformance)
     {
-        // COMMENT HERE MORE
-
         try
         {
-            ResultSet result = connectToDatabase("SELECT * FROM SectorIndexOfDifficulty");
-
-
-            if (!result.next())
-            {
-                System.out.println("TABLE EMPTY");
-            }
-            else
-            {
-                //System.out.println("TABLE NOT EMPTY");
-
-                result.last();
-
-                if((result.getInt("PatternRef")) == getNumberOfPatterns() &&  result.getInt("SectorNumber") == 21)
-                {
-                    statement.close();
-                    connection.close();
-                    return false;
-                }
-            }
-
-            statement.close();
-            connection.close();
-
             connection = connectToDatabase();
 
-            PreparedStatement insert = connection.prepareStatement("INSERT INTO SectorIndexOfDifficulty(PatternRef, SectorNumber, Distance, IndexOfDifficulty) VALUES (?, ?, ?, ?)");
+            PreparedStatement insertIOP = connection.prepareStatement("INSERT INTO SectorIndexOfPerformance(CollectionRef, PatternRef, SectorNumber, IndexOfPerformance) VALUES (?, ?, ?, ?)");
             {
-                insert.setInt(1, pattern);
-                insert.setInt(2, sector);
-                insert.setDouble(3, distance);
-                insert.setDouble(4, indexOfDifficulty);
-                insert.executeUpdate();
-                insert.close();
-                connection.close();
+                insertIOP.setInt(1, collection);
+                insertIOP.setInt(2, pattern);
+                insertIOP.setInt(3, sector);
+                insertIOP.setDouble(4, indexOfPerformance);
+                insertIOP.executeUpdate();
             }
 
+            insertIOP.close();
+            connection.close();
             return true;
+
         }
         catch (SQLException ex)
         {
@@ -262,6 +294,40 @@ public class DATA_Layer implements DATA_Layer_Interface
             generalException(ex);
         }
 
+        return false;
+    }
+
+    public boolean storePatternIndexOfDifficulty(int pattern, int sector, double distance, double indexOfDifficulty)
+    {
+        try
+        {
+            connection = connectToDatabase();
+
+            PreparedStatement insertIOD = connection.prepareStatement("INSERT INTO SectorIndexOfDifficulty(PatternRef, SectorNumber, Distance, IndexOfDifficulty) VALUES (?, ?, ?, ?)");
+            {
+                insertIOD.setInt(1, pattern);
+                insertIOD.setInt(2, sector);
+                insertIOD.setDouble(3, distance);
+                insertIOD.setDouble(4, indexOfDifficulty);
+                insertIOD.executeUpdate();
+            }
+
+            insertIOD.close();
+            connection.close();
+            return true;
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
 
         return false;
     }
