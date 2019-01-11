@@ -48,6 +48,7 @@ public class DATA_Layer implements DATA_Layer_Interface
                     " `CollectionRef`	INTEGER, " +
                     " `PatternRef`	INTEGER, " +
                     " `SectorNumber`	INTEGER, " +
+                    " `DistanceOfDrawnPath`	REAL, " +
                     " `IndexOfPerformance`	REAL, " +
                     " PRIMARY KEY (`SectorIOPID`), " +
                     " FOREIGN KEY(`PatternRef`) REFERENCES `Pattern`(`PatternID`), " +
@@ -112,8 +113,90 @@ public class DATA_Layer implements DATA_Layer_Interface
         return timings;
     }
 
+    // Gets the number of patterns stored in the DB
+    public int getNumberOfCollections()
+    {
+        int noOfCollections = 0;
+
+        try
+        {
+            ResultSet result = connectToDatabase("SELECT * FROM Collection");
+
+            result.last();
+            noOfCollections = result.getRow();
+
+            statement.close();
+            connection.close();
+
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return noOfCollections;
+    }
 
 
+
+    public ArrayList getDrawnPathCoords(int collection, int pattern, int sector)
+    {
+        ArrayList<Double> listOfDrawnPathSectorCoords = new ArrayList<>();
+
+        try
+        {
+            ResultSet result = connectToDatabase("SELECT * FROM Coords WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+
+            result.beforeFirst();
+
+            while (result.next())
+            {
+
+                /*
+                drawnPathCoords.add(result.getDouble("PatternRef"));
+                drawnPathCoords.add(result.getDouble("SectorNumber"));
+                */
+
+                listOfDrawnPathSectorCoords.add(result.getDouble("DrawnPathX"));
+                listOfDrawnPathSectorCoords.add(result.getDouble("DrawnPathY"));
+
+                /*
+                System.out.println("Collection: " + collection);
+                System.out.println("Co ord ID: " + result.getInt("CoordsID"));
+                System.out.println("Pattern: " + pattern);
+                System.out.println("Sector Number: " + sector);
+                System.out.println("X: " + result.getDouble("DrawnPathX"));
+                System.out.println("Y: " + result.getDouble("DrawnPathY"));
+                */
+
+            }
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return listOfDrawnPathSectorCoords;
+    }
 
 
 
@@ -124,11 +207,13 @@ public class DATA_Layer implements DATA_Layer_Interface
     // Gets the number of patterns stored in the DB
     public int getNumberOfPatterns()
     {
-        ResultSet result = connectToDatabase("SELECT * FROM Pattern");
         int noOfPatterns = 0;
 
         try
         {
+
+            ResultSet result = connectToDatabase("SELECT * FROM Pattern");
+
             result.last();
             noOfPatterns = result.getRow();
 
@@ -330,6 +415,57 @@ public class DATA_Layer implements DATA_Layer_Interface
         }
 
         return false;
+    }
+
+
+    public boolean storeUserDrawnPathDistance(int collection, int pattern, int sector, double distanceDrawn)
+    {
+        try
+        {
+            connection = connectToDatabase();
+
+            // Create a new SQL statement, build the query then executes the statement
+            Statement statementIncident = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            String query = "SELECT * FROM SectorIndexOfPerformance WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'";
+            ResultSet result = statementIncident.executeQuery(query);
+
+            // If there is a result then enter the if statement
+            if (result.isBeforeFirst())
+            {
+                // Sets the ResultSet to the first entry
+                result.first();
+
+                // Updates the relevant columns in the DB
+                result.updateDouble("DistanceOfDrawnPath", distanceDrawn);
+
+                // Update the row in the DB
+                result.updateRow();
+
+                result.close();
+                connection.close();
+            }
+            else
+            {
+                result.close();
+                connection.close();
+                return false;
+            }
+
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return true;
     }
 
     //endregion
