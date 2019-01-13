@@ -46,21 +46,17 @@ public class APP_Layer implements APP_Layer_Interface
 
     private void setupIndexOfDifficulty()
     {
+        boolean isSetupOk = true;
+
         // A FOR loop to iterate through each patterns coords
         for (int i = 1; i <= numberOfPatterns; i++)
         {
             ArrayList coords = dataLayer.getPatternCoords(i);
 
-
-            //System.out.println("Pattern No: " + i);
-
             isItTheFirstSector = true;
 
             for (int j = 0; j < coords.size(); j+=2)
             {
-                //System.out.println("X: " + coords.get(j));
-                //System.out.println("Y: " + coords.get(j + 1));
-
                 // Allows for the casting from Integer to double
                 double x = (double) (Integer) coords.get(j);
                 double y = (double) (Integer) coords.get(j + 1);
@@ -68,13 +64,11 @@ public class APP_Layer implements APP_Layer_Interface
                 double distance = calculateTheDistance(x , y);
                 double indexOfDifficulty = calculateTheIndexOfDifficulty(distance);
 
-
-
                 if (!dataLayer.storePatternIndexOfDifficulty(i, (( j / 2 ) + 1), distance, indexOfDifficulty))
                 {
                     System.out.println("Error adding Index of Difficulty to the DB for Pattern: " + i + " - Sector: " + (( j / 2 ) + 1));
+                    isSetupOk = false;
                 }
-
 
                 listOfIndexOfDifficulty.add((double) (Integer) i);
                 listOfIndexOfDifficulty.add((double) (Integer) (( j / 2 ) + 1));
@@ -83,6 +77,11 @@ public class APP_Layer implements APP_Layer_Interface
                 isItTheFirstSector = false;
             }
         }
+
+        if (isSetupOk)
+        {
+            System.out.println("Index of Difficulty calculations: Completed");
+        }
     }
 
     private void setupDrawnPath()
@@ -90,6 +89,7 @@ public class APP_Layer implements APP_Layer_Interface
         ArrayList<Double> listOfDrawnPathSectorCoords;
         ArrayList<Double> listOfSectorCoords = new ArrayList<>();
 
+        boolean isSetupOk = true;
 
         int numberOfSectors;
 
@@ -140,12 +140,7 @@ public class APP_Layer implements APP_Layer_Interface
                     if (!dataLayer.storeUserDrawnPathDistance(i, j, k, totalDistanceDrawn))
                     {
                         System.out.println("Error adding distance drawn to the DB for Collection: " + i + " - Pattern: " + j + " - Sector: " + k);
-                    }
-
-
-                    if (i == 1 && j == 1)
-                    {
-                        System.out.println("Collection: " + i + " - Pattern: " + j + " - Sector: " + k + " - Distance: " + totalDistanceDrawn);
+                        isSetupOk = false;
                     }
 
                     listOfSectorCoords.clear();
@@ -153,11 +148,18 @@ public class APP_Layer implements APP_Layer_Interface
                 }
             }
         }
+
+        if (isSetupOk)
+        {
+            System.out.println("Drawn path calculations: Completed");
+        }
     }
 
 
     private void setupIndexOfPerformance()
     {
+        boolean isSetupOk = true;
+
         for (int i = 1; i <= numberOfCollections; i++)
         {
             listOfTimings.add(dataLayer.getSectorTimes(i));
@@ -192,17 +194,17 @@ public class APP_Layer implements APP_Layer_Interface
         {
             for (int j = 0; j < listOfListOfIndexOfPerformance.get(i).size(); j = j + 3)
             {
-                if (dataLayer.storeUserIndexOfPerformance((i + 1), listOfListOfIndexOfPerformance.get(i).get(j).intValue(), listOfListOfIndexOfPerformance.get(i).get(j + 1).intValue(), listOfListOfIndexOfPerformance.get(i).get(j + 2)))
+                if (!dataLayer.storeUserIndexOfPerformance((i + 1), listOfListOfIndexOfPerformance.get(i).get(j).intValue(), listOfListOfIndexOfPerformance.get(i).get(j + 1).intValue(), listOfListOfIndexOfPerformance.get(i).get(j + 2)))
                 {
-                    // ADDED
-                    //System.out.println("ADDED - Collection: " + (i + 1) + " - Pattern: " + listOfListOfIndexOfPerformance.get(i).get(j) + " - Sector: " + listOfListOfIndexOfPerformance.get(i).get(j + 1) + " - IoP: " + listOfListOfIndexOfPerformance.get(i).get(j + 2));
-                }
-                else
-                {
-                    // NOT ADDED
-                    //System.out.println("NOT ADDED - Collection: " + (i + 1) + " - Pattern: " + listOfListOfIndexOfPerformance.get(i).get(j) + " - Sector: " + listOfListOfIndexOfPerformance.get(i).get(j + 1) + " - IoP: " + listOfListOfIndexOfPerformance.get(i).get(j + 2));
+                    System.out.println("Index of Performance value NOT ADDED - Collection: " + (i + 1) + " - Pattern: " + listOfListOfIndexOfPerformance.get(i).get(j) + " - Sector: " + listOfListOfIndexOfPerformance.get(i).get(j + 1) + " - IoP: " + listOfListOfIndexOfPerformance.get(i).get(j + 2));
+                    isSetupOk = false;
                 }
             }
+        }
+
+        if (isSetupOk)
+        {
+            System.out.println("Index of Performance calculations: Completed");
         }
     }
 
@@ -253,12 +255,12 @@ public class APP_Layer implements APP_Layer_Interface
     {
         if (dataLayer.addNewDatabaseTables())
         {
-            System.out.println("Database Setup SUCCESSFUL");
+            System.out.println("Database Setup: Completed");
 
         }
         else
         {
-            System.out.println("Database Setup UNSUCCESSFUL");
+            System.out.println("Database Setup: ERROR - NOT Completed");
         }
     }
 
