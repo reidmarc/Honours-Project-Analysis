@@ -113,6 +113,57 @@ public class DATA_Layer implements DATA_Layer_Interface
         return timings;
     }
 
+
+
+    // Get the sector index of performance for each pattern/sector and returns the value as a double
+    public double getSectorIndexOfPerformance(int collection, int pattern, int sector, String column)
+    {
+        double sectorIndexOfPerformance = 0;
+
+
+        try
+        {
+            ResultSet result;
+
+            if (collection > 0)
+            {
+                result = connectToDatabase("SELECT * FROM SectorIndexOfPerformance WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+            }
+            else
+            {
+                result = connectToDatabase("SELECT * FROM SectorIndexOfDifficulty WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+
+            }
+
+            result.beforeFirst();
+
+            while (result.next())
+            {
+                sectorIndexOfPerformance = result.getDouble(column);
+            }
+
+            statement.close();
+            connection.close();
+
+            return sectorIndexOfPerformance;
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return sectorIndexOfPerformance;
+    }
+
+
     // Gets the number of patterns stored in the DB
     public int getNumberOfCollections()
     {
@@ -159,24 +210,8 @@ public class DATA_Layer implements DATA_Layer_Interface
 
             while (result.next())
             {
-
-                /*
-                drawnPathCoords.add(result.getDouble("PatternRef"));
-                drawnPathCoords.add(result.getDouble("SectorNumber"));
-                */
-
                 listOfDrawnPathSectorCoords.add(result.getDouble("DrawnPathX"));
                 listOfDrawnPathSectorCoords.add(result.getDouble("DrawnPathY"));
-
-                /*
-                System.out.println("Collection: " + collection);
-                System.out.println("Co ord ID: " + result.getInt("CoordsID"));
-                System.out.println("Pattern: " + pattern);
-                System.out.println("Sector Number: " + sector);
-                System.out.println("X: " + result.getDouble("DrawnPathX"));
-                System.out.println("Y: " + result.getDouble("DrawnPathY"));
-                */
-
             }
 
             statement.close();
@@ -482,7 +517,7 @@ public class DATA_Layer implements DATA_Layer_Interface
             connection =  DriverManager.getConnection("jdbc:mysql://localhost/honours-project?user=candidwebuser&password=pw4candid");
 
             // Create a new SQL statement
-            statement = connection.createStatement();
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
 
             // Execute the statement
             return statement.executeQuery(query);
