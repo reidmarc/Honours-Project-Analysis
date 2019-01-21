@@ -11,11 +11,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/APP_Layer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2733">
-              <caret line="253" column="70" selection-start-line="253" selection-start-column="70" selection-end-line="253" selection-end-column="70" />
+            <state relative-caret-position="559">
+              <caret line="462" column="51" selection-start-line="462" selection-start-column="51" selection-end-line="462" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -23,11 +23,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DATA_Layer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="118" column="68" selection-start-line="118" selection-start-column="68" selection-end-line="118" selection-end-column="68" />
+            <state relative-caret-position="1338">
+              <caret line="118" column="101" selection-start-line="118" selection-start-column="101" selection-end-line="118" selection-end-column="101" />
             </state>
           </provider>
         </entry>
@@ -42,17 +42,18 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-8" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1912" />
     <option name="y" value="-8" />
     <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="height" value="1176" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -63,25 +64,19 @@
             <path>
               <item name="Honours-Project-Analysis" type="b2602c69:ProjectViewProjectNode" />
               <item name="Honours-Project-Analysis" type="462c0819:PsiDirectoryNode" />
-              <item name="DistanceOfDrawnPathData" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Honours-Project-Analysis" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Honours-Project-Analysis" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547661079181" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1548096537824" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Stuff/JARs/opencsv-4.3.2.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -130,11 +125,14 @@
       <workItem from="1547652425095" duration="91000" />
       <workItem from="1547652947615" duration="2130000" />
       <workItem from="1547659525812" duration="1597000" />
+      <workItem from="1548090071489" duration="126000" />
+      <workItem from="1548090225790" duration="13000" />
+      <workItem from="1548093928422" duration="2450000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19608000" />
+    <option name="totallyTimeSpent" value="22197000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -146,10 +144,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26865673" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2771855" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -197,188 +195,86 @@
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 2.txt" />
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 4.txt" />
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 1.txt" />
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 2 - Sector - 2.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="27" lean-forward="true" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 2 - Sector - 2.csv" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 2.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 6.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 5.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 4.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 3.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 5 - Sector - 5.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 1.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 2.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 6.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 5.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 4.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 3.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 5 - Sector - 5.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 8.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 4 - Sector - 9.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 3 - Sector - 8.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 3 - Sector - 9.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 2 - Sector - 9.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 8.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 7.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 6.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 5.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 4.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 3.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 9.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 9.csv" />
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 2 - Sector - 5.csv" />
+    <entry file="file://$PROJECT_DIR$/src/DATA_Layer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1338">
+          <caret line="118" column="101" selection-start-line="118" selection-start-column="101" selection-end-line="118" selection-end-column="101" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 8.csv">
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 2.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 4 - Sector - 9.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 3 - Sector - 8.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 3 - Sector - 9.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 2 - Sector - 9.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 2 - Sector - 1.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 8.csv">
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 6 - Sector - 15.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 7.csv">
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 5 - Sector - 7.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 6.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 5.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 4.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 3.csv">
-      <provider editor-type-id="text-editor" />
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 1.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 2.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 9.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 9.csv">
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 8 - Sector - 21.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
-      <provider selected="true" editor-type-id="csv-text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 2 - Sector - 5.csv">
+    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 1.csv">
+      <provider selected="true" editor-type-id="csv-text-editor" />
       <provider editor-type-id="csv-table-editor">
         <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 1.csv">
       <provider selected="true" editor-type-id="csv-text-editor" />
+      <provider editor-type-id="csv-table-editor">
+        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/APP_Layer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2733">
-          <caret line="253" column="70" selection-start-line="253" selection-start-column="70" selection-end-line="253" selection-end-column="70" />
+        <state relative-caret-position="559">
+          <caret line="462" column="51" selection-start-line="462" selection-start-column="51" selection-end-line="462" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/DATA_Layer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="118" column="68" selection-start-line="118" selection-start-column="68" selection-end-line="118" selection-end-column="68" />
         </state>
       </provider>
     </entry>

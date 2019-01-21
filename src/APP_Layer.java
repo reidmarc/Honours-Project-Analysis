@@ -111,6 +111,7 @@ public class APP_Layer implements APP_Layer_Interface
 
 
                     if (drawnDistance < distance)
+                    //if ((distance - drawnDistance) > 10)
                     {
                         anomalyCounter = anomalyCounter + 1;
 
@@ -265,6 +266,8 @@ public class APP_Layer implements APP_Layer_Interface
     private void prepareDataToWriteToCSV()
     {
         double value = 0;
+        boolean isItTheFirstSectorIOP = true;
+        boolean isItTheFirstDistanceDrawn = true;
 
 
         String filepath;
@@ -295,8 +298,16 @@ public class APP_Layer implements APP_Layer_Interface
             {
                 for (int collection = 1; collection <= numberOfCollections ; collection++)
                 {
+
                     value = dataLayer.getSectorIndexOfPerformance(collection, pattern, sector, "IndexOfPerformance");
                     filepath = "SectorIndexOfPerformanceData/Pattern - " + pattern + " - Sector - " + sector + ".csv";
+
+                    if (isItTheFirstSectorIOP)
+                    {
+                        setRowHeadingsCSV(filepath, "Index of Performance");
+                        isItTheFirstSectorIOP = false;
+                    }
+
                     exportDataToCSV(filepath, collection, pattern, sector, value);
 
 
@@ -304,9 +315,19 @@ public class APP_Layer implements APP_Layer_Interface
 
                     value = dataLayer.getSectorIndexOfPerformance(collection, pattern, sector, "DistanceOfDrawnPath");
                     filepath = "DistanceOfDrawnPathData/Pattern - " + pattern + " - Sector - " + sector + ".csv";
+
+                    if (isItTheFirstDistanceDrawn)
+                    {
+                        setRowHeadingsCSV(filepath, "Distance of Drawn Path");
+                        isItTheFirstDistanceDrawn = false;
+                    }
+
                     exportDataToCSV(filepath, collection, pattern, sector, value);
 
                 }
+
+                isItTheFirstDistanceDrawn = true;
+                isItTheFirstSectorIOP = true;
             }
         }
 
@@ -324,6 +345,27 @@ public class APP_Layer implements APP_Layer_Interface
             PrintWriter pw = new PrintWriter(bw);
 
             pw.println(collection + ", " + pattern + ", " + sector + ", " + value);
+            pw.flush();
+            pw.close();
+        }
+        catch (Exception ex)
+        {
+            System.out.println("CSV File NOT saved");
+            System.out.println(ex);
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    private void setRowHeadingsCSV(String filepath, String value)
+    {
+        try
+        {
+            FileWriter fw = new FileWriter(filepath, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            pw.println("Collection, Pattern, Sector, " + value);
             pw.flush();
             pw.close();
         }
@@ -419,9 +461,6 @@ public class APP_Layer implements APP_Layer_Interface
                     {
                         listOfSectorCoords.add(calculateTheDistance(listOfDrawnPathSectorCoords.get(m), listOfDrawnPathSectorCoords.get(m + 1)));
                         isItTheFirstSector = false;
-
-                        //PROBLEM IS WHEN A NEW SECTOR STARTS THE FIRST CALC IS FROM PATTERN STARTING POSITION AND NOT THE LAST COORDS FROM PREVIOUS SECTOR
-                        // Seems to be working now??
 
                     }
 
