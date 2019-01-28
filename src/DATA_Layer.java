@@ -28,29 +28,32 @@ public class DATA_Layer implements DATA_Layer_Interface
             // Create a new SQL statement
             statement = connection.createStatement();
 
-            // Creates the table `SectorIndexOfDifficulty`
-            statement.executeUpdate("DROP TABLE IF EXISTS `SectorIndexOfDifficulty`;");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS `SectorIndexOfDifficulty` " +
-                    "( `SectorIODID`	INTEGER AUTO_INCREMENT, " +
+            // Creates the table `SectorData`
+            statement.executeUpdate("DROP TABLE IF EXISTS `SectorData`;");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS `SectorData` " +
+                    "( `SectorDataID`	INTEGER AUTO_INCREMENT, " +
                     " `PatternRef`	INTEGER, " +
                     " `SectorNumber`	INTEGER, " +
                     " `Distance`	REAL, " +
                     " `IndexOfDifficulty`	REAL, " +
-                    " PRIMARY KEY (`SectorIODID`), " +
+                    " `Mean`	REAL, " +
+                    " `StandardDeviation`	REAL, " +
+                    " PRIMARY KEY (`SectorDataID`), " +
                     " FOREIGN KEY(`PatternRef`) REFERENCES `Pattern`(`PatternID`) " +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
 
-            // Creates the table `SectorIndexOfPerformance`
-            statement.executeUpdate("DROP TABLE IF EXISTS `SectorIndexOfPerformance`;");
-            statement.executeUpdate("CREATE TABLE IF NOT EXISTS `SectorIndexOfPerformance` " +
-                    "( `SectorIOPID`	INTEGER AUTO_INCREMENT, " +
+            // Creates the table `userPerformanceData`
+            statement.executeUpdate("DROP TABLE IF EXISTS `userPerformanceData`;");
+            statement.executeUpdate("CREATE TABLE IF NOT EXISTS `userPerformanceData` " +
+                    "( `userPerformanceDataID`	INTEGER AUTO_INCREMENT, " +
                     " `CollectionRef`	INTEGER, " +
                     " `PatternRef`	INTEGER, " +
                     " `SectorNumber`	INTEGER, " +
-                    " `DistanceOfDrawnPath`	REAL, " +
+                  //" `DistanceOfDrawnPath`	REAL, " +
                     " `IndexOfPerformance`	REAL, " +
-                    " PRIMARY KEY (`SectorIOPID`), " +
+                    " `DistanceFromMeanInStandardDeviation`	REAL, " +
+                    " PRIMARY KEY (`userPerformanceDataID`), " +
                     " FOREIGN KEY(`PatternRef`) REFERENCES `Pattern`(`PatternID`), " +
                     " FOREIGN KEY(`CollectionRef`) REFERENCES `Collection`(`CollectionID`) " +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
@@ -113,6 +116,109 @@ public class DATA_Layer implements DATA_Layer_Interface
         return timings;
     }
 
+    public double getStandardDeviation(int pattern, int sector)
+    {
+        double standardDeviation = 0.0;
+
+        try
+        {
+            ResultSet result = connectToDatabase("SELECT * FROM SectorData WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+
+            result.beforeFirst();
+
+            while (result.next())
+            {
+                standardDeviation = result.getDouble("StandardDeviation");
+            }
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return standardDeviation;
+    }
+
+    public double getDistanceFromMeanInStandardDeviation(int collection, int pattern, int sector)
+    {
+        double standardDeviation = 0.0;
+
+        try
+        {
+            ResultSet result = connectToDatabase("SELECT * FROM UserPerformanceData WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+
+            result.beforeFirst();
+
+            while (result.next())
+            {
+                standardDeviation = result.getDouble("DistanceFromMeanInStandardDeviation");
+            }
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return standardDeviation;
+    }
+
+
+    public double getSectorMean(int pattern, int sector)
+    {
+        double mean = 0.0;
+
+        try
+        {
+            ResultSet result = connectToDatabase("SELECT * FROM SectorData WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+
+            result.beforeFirst();
+
+            while (result.next())
+            {
+                mean = result.getDouble("Mean");
+            }
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return mean;
+    }
+
 
 
     // Get the sector index of performance for each pattern/sector and returns the value as a double
@@ -127,11 +233,11 @@ public class DATA_Layer implements DATA_Layer_Interface
 
             if (collection > 0)
             {
-                result = connectToDatabase("SELECT * FROM SectorIndexOfPerformance WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+                result = connectToDatabase("SELECT * FROM userPerformanceData WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
             }
             else
             {
-                result = connectToDatabase("SELECT * FROM SectorIndexOfDifficulty WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+                result = connectToDatabase("SELECT * FROM SectorData WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
 
             }
 
@@ -197,7 +303,7 @@ public class DATA_Layer implements DATA_Layer_Interface
     }
 
 
-
+    /* DISTANCE DRAWN CODE
     public ArrayList getDrawnPathCoords(int collection, int pattern, int sector)
     {
         ArrayList<Double> listOfDrawnPathSectorCoords = new ArrayList<>();
@@ -232,6 +338,7 @@ public class DATA_Layer implements DATA_Layer_Interface
 
         return listOfDrawnPathSectorCoords;
     }
+    */
 
 
 
@@ -387,16 +494,16 @@ public class DATA_Layer implements DATA_Layer_Interface
         {
             connection = connectToDatabase();
 
-            PreparedStatement insertIOP = connection.prepareStatement("INSERT INTO SectorIndexOfPerformance(CollectionRef, PatternRef, SectorNumber, IndexOfPerformance) VALUES (?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO userPerformanceData(CollectionRef, PatternRef, SectorNumber, IndexOfPerformance) VALUES (?, ?, ?, ?)");
             {
-                insertIOP.setInt(1, collection);
-                insertIOP.setInt(2, pattern);
-                insertIOP.setInt(3, sector);
-                insertIOP.setDouble(4, indexOfPerformance);
-                insertIOP.executeUpdate();
+                statement.setInt(1, collection);
+                statement.setInt(2, pattern);
+                statement.setInt(3, sector);
+                statement.setDouble(4, indexOfPerformance);
+                statement.executeUpdate();
             }
 
-            insertIOP.close();
+            statement.close();
             connection.close();
             return true;
 
@@ -417,22 +524,23 @@ public class DATA_Layer implements DATA_Layer_Interface
         return false;
     }
 
-    public boolean storePatternIndexOfDifficulty(int pattern, int sector, double distance, double indexOfDifficulty)
+
+    public boolean storeSectorIndexOfDifficultyAndDistance(int pattern, int sector, double distance, double indexOfDifficulty)
     {
         try
         {
             connection = connectToDatabase();
 
-            PreparedStatement insertIOD = connection.prepareStatement("INSERT INTO SectorIndexOfDifficulty(PatternRef, SectorNumber, Distance, IndexOfDifficulty) VALUES (?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO SectorData(PatternRef, SectorNumber, Distance, IndexOfDifficulty) VALUES (?, ?, ?, ?)");
             {
-                insertIOD.setInt(1, pattern);
-                insertIOD.setInt(2, sector);
-                insertIOD.setDouble(3, distance);
-                insertIOD.setDouble(4, indexOfDifficulty);
-                insertIOD.executeUpdate();
+                statement.setInt(1, pattern);
+                statement.setInt(2, sector);
+                statement.setDouble(3, distance);
+                statement.setDouble(4, indexOfDifficulty);
+                statement.executeUpdate();
             }
 
-            insertIOD.close();
+            statement.close();
             connection.close();
             return true;
         }
@@ -453,6 +561,108 @@ public class DATA_Layer implements DATA_Layer_Interface
     }
 
 
+    public boolean storeUsersDistanceFromMeanInSD(int collection, int pattern, int sector, double distance)
+    {
+        try
+        {
+            connection = connectToDatabase();
+
+            // Create a new SQL statement, build the query then executes the statement
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            String query = "SELECT * FROM UserPerformanceData WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector+ "'";
+
+            ResultSet result = statement.executeQuery(query);
+
+            // If there is a result then enter the if statement
+            if (result.isBeforeFirst())
+            {
+                // Sets the ResultSet to the first entry
+                result.first();
+
+                // Updates the Mean value
+                result.updateDouble("DistanceFromMeanInStandardDeviation", distance);
+
+                // Update the row in the DB
+                result.updateRow();
+            }
+            else
+            {
+                return false;
+            }
+
+            statement.close();
+            connection.close();
+            return true;
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return false;
+    }
+
+    public boolean storeSectorStandardDeviationAndMean(int pattern, int sector, double standardDeviation, double mean)
+    {
+        try
+        {
+            connection = connectToDatabase();
+
+            // Create a new SQL statement, build the query then executes the statement
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            String query = "SELECT * FROM SectorData WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector+ "'";
+
+            ResultSet result = statement.executeQuery(query);
+
+            // If there is a result then enter the if statement
+            if (result.isBeforeFirst())
+            {
+                // Sets the ResultSet to the first entry
+                result.first();
+
+                // Updates the Mean value
+                result.updateDouble("Mean", mean);
+
+                // Updates the Standard Deviation value
+                result.updateDouble("StandardDeviation", standardDeviation);
+
+                // Update the row in the DB
+                result.updateRow();
+            }
+            else
+            {
+                return false;
+            }
+
+            statement.close();
+            connection.close();
+            return true;
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return false;
+    }
+
+    /* DISTANCE DRAWN CODE
     public boolean storeUserDrawnPathDistance(int collection, int pattern, int sector, double distanceDrawn)
     {
         try
@@ -460,9 +670,9 @@ public class DATA_Layer implements DATA_Layer_Interface
             connection = connectToDatabase();
 
             // Create a new SQL statement, build the query then executes the statement
-            Statement statementIncident = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            String query = "SELECT * FROM SectorIndexOfPerformance WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'";
-            ResultSet result = statementIncident.executeQuery(query);
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            String query = "SELECT * FROM userPerformanceData WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'";
+            ResultSet result = statement.executeQuery(query);
 
             // If there is a result then enter the if statement
             if (result.isBeforeFirst())
@@ -502,6 +712,7 @@ public class DATA_Layer implements DATA_Layer_Interface
 
         return true;
     }
+    */
 
     //endregion
 
@@ -603,5 +814,9 @@ public class DATA_Layer implements DATA_Layer_Interface
         ex.printStackTrace();
         System.exit(-1);
     }
+
+
+
+
     //endregion
 }
