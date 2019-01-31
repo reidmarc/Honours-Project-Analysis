@@ -60,7 +60,9 @@ public class APP_Layer implements APP_Layer_Interface
     {
         int numberOfSectors;
         double value = 0;
-
+        int greaterThan2SDCounter = 0;
+        int greaterThan1halfSDCounter = 0;
+        int greaterThan1SDCounter = 0;
 
         for (int collection = 1; collection <= numberOfCollections; collection++)
         {
@@ -86,7 +88,22 @@ public class APP_Layer implements APP_Layer_Interface
 
                 for (int sector = 1; sector <= numberOfSectors; sector++)
                 {
-                    value = value + dataLayer.getDistanceFromMeanInStandardDeviation(collection, pattern, sector);
+                    double distanceFromMean = dataLayer.getDistanceFromMeanInStandardDeviation(collection, pattern, sector);
+
+                    if (distanceFromMean > 2)
+                    {
+                        greaterThan2SDCounter = greaterThan2SDCounter + 1;
+                    }
+                    else if (distanceFromMean > 1.5)
+                    {
+                        greaterThan1halfSDCounter = greaterThan1halfSDCounter + 1;
+                    }
+                    else if (distanceFromMean > 1)
+                    {
+                        greaterThan1SDCounter = greaterThan1SDCounter + 1;
+                    }
+
+                    value = value + distanceFromMean;
 
 
 
@@ -94,10 +111,17 @@ public class APP_Layer implements APP_Layer_Interface
             }
 
 
-            System.out.println("Collection: " + collection + " - Average distance from mean in SD: " + ( value / 108));
+            System.out.println("\nCollection: " + collection +
+                    "\nNo of sectors with a value greater than 2 SD: " + greaterThan2SDCounter +
+                    "\nNo of sectors with a value greater than 1.5 SD and less than 2 SD: " + greaterThan1halfSDCounter +
+                    "\nNo of sectors with a value greater than 1 SD and less than 1.5 SD: " + greaterThan1SDCounter +
+                    "\nAverage distance from mean in SD: " + ( value / 108));
 
 
             value = 0.0;
+            greaterThan2SDCounter = 0;
+            greaterThan1halfSDCounter = 0;
+            greaterThan1SDCounter = 0;
         }
 
 
@@ -320,8 +344,8 @@ public class APP_Layer implements APP_Layer_Interface
                     }
                     else if (indexOfPerformance > mean)
                     {
-                        //difference = (indexOfPerformance - mean) / standardDeviation;
-                        difference = 0;
+                        difference = (indexOfPerformance - mean) / standardDeviation;
+                        //difference = 0;
                     }
                     else
                     {
