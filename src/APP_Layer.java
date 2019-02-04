@@ -14,6 +14,7 @@ public class APP_Layer implements APP_Layer_Interface
     private final double startingY = 100;
     private int numberOfCollections;
     private int numberOfPatterns;
+    private int totalNumberOfSectors = 108;
 
     private boolean isItTheFirstSector = true;
     private double previousX;
@@ -24,6 +25,8 @@ public class APP_Layer implements APP_Layer_Interface
 
     private ArrayList<Double> listOfIndexOfPerformance = new ArrayList<>();
     private ArrayList<ArrayList<Double>> listOfListOfIndexOfPerformance = new ArrayList<>();
+
+    private ArrayList<Double> listOfInterestingResults = new ArrayList<>();
 
 
 
@@ -60,9 +63,16 @@ public class APP_Layer implements APP_Layer_Interface
     {
         int numberOfSectors;
         double value = 0;
+
         int greaterThan2SDCounter = 0;
         int greaterThan1halfSDCounter = 0;
         int greaterThan1SDCounter = 0;
+
+        int greaterThan2SDCounterNeg = 0;
+        int greaterThan1halfSDCounterNeg = 0;
+        int greaterThan1SDCounterNeg = 0;
+
+        int withinSDCounter = 0;
 
         for (int collection = 1; collection <= numberOfCollections; collection++)
         {
@@ -102,26 +112,93 @@ public class APP_Layer implements APP_Layer_Interface
                     {
                         greaterThan1SDCounter = greaterThan1SDCounter + 1;
                     }
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////
+                    else if (distanceFromMean < -2)
+                    {
+                        greaterThan2SDCounterNeg = greaterThan2SDCounterNeg + 1;
+                    }
+                    else if (distanceFromMean < -1.5)
+                    {
+                        greaterThan1halfSDCounterNeg = greaterThan1halfSDCounterNeg + 1;
+                    }
+                    else if (distanceFromMean < -1)
+                    {
+                        greaterThan1SDCounterNeg = greaterThan1SDCounterNeg + 1;
+                    }
+                    else
+                    {
+                        withinSDCounter = withinSDCounter + 1;
+                    }
 
-                    value = value + distanceFromMean;
+
+                    // Grubbs related Upper .1% sig lvl for 11 collections
+                    if (distanceFromMean > 2.48 || distanceFromMean < -2.48) //
+                    {
+                        listOfInterestingResults.add((double) collection);
+                        listOfInterestingResults.add((double) pattern);
+                        listOfInterestingResults.add((double) sector);
+                        listOfInterestingResults.add(distanceFromMean);
+                    }
 
 
 
+                    if (distanceFromMean >= 0)
+                    {
+                        value = value + distanceFromMean;
+                    }
+                    else
+                    {
+                        value = value - distanceFromMean;
+                    }
                 }
             }
 
+            int userID = dataLayer.getCollectionsUserNo(collection);
 
-            System.out.println("\nCollection: " + collection +
-                    "\nNo of sectors with a value greater than 2 SD: " + greaterThan2SDCounter +
-                    "\nNo of sectors with a value greater than 1.5 SD and less than 2 SD: " + greaterThan1halfSDCounter +
-                    "\nNo of sectors with a value greater than 1 SD and less than 1.5 SD: " + greaterThan1SDCounter +
-                    "\nAverage distance from mean in SD: " + ( value / 108));
+
+            // Checks the each sector has been accounted for
+            if (greaterThan2SDCounter + greaterThan1halfSDCounter + greaterThan1SDCounter + greaterThan2SDCounterNeg + greaterThan1halfSDCounterNeg + greaterThan1SDCounterNeg + withinSDCounter == totalNumberOfSectors)
+            {
+
+                System.out.println( "\nCollection: " + collection +
+                                    "\nUser ID: " + userID +
+                                    "\n\nNo of sectors with a positive value greater than 2 SD: " + greaterThan2SDCounter +
+                                    "\nNo of sectors with a positive value greater than 1.5 SD and less than 2 SD: " + greaterThan1halfSDCounter +
+                                    "\nNo of sectors with a positive value greater than 1 SD and less than 1.5 SD: " + greaterThan1SDCounter +
+
+                                    "\n\nNo of sectors with a negative value greater than 2 SD: " + greaterThan2SDCounterNeg +
+                                    "\nNo of sectors with a negative value greater than 1.5 SD and less than 2 SD: " + greaterThan1halfSDCounterNeg +
+                                    "\nNo of sectors with a negative value greater than 1 SD and less than 1.5 SD: " + greaterThan1SDCounterNeg +
+
+                                    "\n\nNo of sectors within expected SD range: " + withinSDCounter +
+                                    "\nTotal Average distance from mean in SD: " + (value / totalNumberOfSectors) +
+                                    "\n------------------------------------------------------------------------------");
+            }
+            else
+            {
+                System.out.println("Error with collection: " + collection + "'s SD calculations");
+            }
 
 
             value = 0.0;
             greaterThan2SDCounter = 0;
             greaterThan1halfSDCounter = 0;
             greaterThan1SDCounter = 0;
+
+            greaterThan2SDCounterNeg = 0;
+            greaterThan1halfSDCounterNeg = 0;
+            greaterThan1SDCounterNeg = 0;
+
+            withinSDCounter = 0;
+        }
+
+        for (int i = 0; i < listOfInterestingResults.size(); i = i + 4)
+        {
+            System.out.println( "\n\nCollection: " + listOfInterestingResults.get(i) +
+                                "\nPattern: " + listOfInterestingResults.get(i + 1) +
+                                "\nSector: " + listOfInterestingResults.get(i + 2) +
+                                "\nValue: " + listOfInterestingResults.get(i + 3) +
+                                "\n----------------------------------------");
         }
 
 
@@ -337,6 +414,7 @@ public class APP_Layer implements APP_Layer_Interface
                     // Get the user's Sector Index of Performance
                     indexOfPerformance = dataLayer.getSectorIndexOfPerformance(collection, pattern, sector, "IndexOfPerformance");
 
+                    /*
                     // Calculate how far from the mean the IOP is
                     if (indexOfPerformance < mean)
                     {
@@ -352,6 +430,9 @@ public class APP_Layer implements APP_Layer_Interface
                         difference = 0;
                     }
                     //System.out.println("Difference: " + difference);
+                    */
+
+                    difference = (indexOfPerformance - mean) / standardDeviation;
 
 
                     // Insert data into the db

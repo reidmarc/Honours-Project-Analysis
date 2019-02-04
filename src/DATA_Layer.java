@@ -150,6 +150,40 @@ public class DATA_Layer implements DATA_Layer_Interface
         return standardDeviation;
     }
 
+    public int getCollectionsUserNo(int collection)
+    {
+        int userNum = 0;
+
+        try
+        {
+            ResultSet result = connectToDatabase("SELECT * FROM Users WHERE ID = '" + collection + "'");
+
+            result.beforeFirst();
+
+            while (result.next())
+            {
+                userNum = result.getInt("UserID");
+            }
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return userNum;
+    }
+
     public double getDistanceFromMeanInStandardDeviation(int collection, int pattern, int sector)
     {
         double standardDeviation = 0.0;
