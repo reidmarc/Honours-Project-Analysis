@@ -10,22 +10,19 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13" />
+          <root url="jar://$MODULE_DIR$/../Stuff/JARs/DatabaseConnection/mysql-connector-java-8.0.15.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/build/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/demo/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/generated/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/legacy/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/main/core-api/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/main/core-impl/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/main/protocol-impl/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/main/user-api/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/main/user-impl/java" />
-          <root url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/test/java" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13" recursive="false" />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../Stuff/JARs/DatabaseConnection/protobuf-java-3.6.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
   </component>

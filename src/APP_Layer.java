@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class APP_Layer implements APP_Layer_Interface
@@ -19,6 +20,11 @@ public class APP_Layer implements APP_Layer_Interface
     private boolean isItTheFirstSector = true;
     private double previousX;
     private double previousY;
+    private double oldY;
+
+    int upCounter = 0;
+    int downCounter = 0;
+    int levelCounter = 0;
 
     private ArrayList<ArrayList<Double>> listOfTimings = new ArrayList<>();
     private ArrayList<Double> listOfIndexOfDifficulty = new ArrayList<>();
@@ -31,10 +37,11 @@ public class APP_Layer implements APP_Layer_Interface
 
 
 
+
+
     public APP_Layer(DATA_Layer dataLayer)
     {
         this.dataLayer = dataLayer;
-
 
         setupDatabase();                                    // Step 1
 
@@ -52,16 +59,198 @@ public class APP_Layer implements APP_Layer_Interface
 
         calculateUserSectorDistanceFromMeanInSD();          // Step 8
 
-        prepareStandardDeviationDataToWriteToCSV();        // Step 9
+        prepareStandardDeviationDataToWriteToCSV();         // Step 9
 
         moreStandardDeviationCalcs();
+
+        sectorDirectionAndScoreAnalysis();
+
+        directionOfSectorForDistanceFromTheMeanInStandardDeviationAnalysis();
 
         //tempTesting();
     }
 
-    private void moreStandardDeviationCalcs()
+    // Returns the number of sectors in a pattern
+    private int getNumberOfSectors(int pattern)
     {
         int numberOfSectors;
+
+        // Patterns 1 + 2 + 3 + 4 have 9 sectors
+        if (pattern < 5)
+        {
+            numberOfSectors = 9;
+        }
+        // Patterns 7 + 8 have 21 sectors
+        else if (pattern > 6)
+        {
+            numberOfSectors = 21;
+        }
+        // Patterns 5 + 6 have 15 sectors
+        else
+        {
+            numberOfSectors = 15;
+        }
+
+        return numberOfSectors;
+    }
+
+    private void sectorDirectionAndScoreAnalysis()
+    {
+        for (int pattern = 1; pattern <= numberOfPatterns; pattern = pattern + 2)
+        {
+            for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
+            {
+                double patternScore;
+                double patternScoreInverse;
+                String direction = "";
+
+
+                // GET PATTERN 1 SECTOR 1 SCORE
+                patternScore = dataLayer.getTotalStandardDeviationScore(pattern, sector);
+
+                // GET PATTERN 2 SECTOR 2 SCORE
+                patternScoreInverse = dataLayer.getTotalStandardDeviationScore(pattern + 1, sector);
+
+                // COMPARE TO SEE WHICH IS LOWER AND OUTPUT THE LOWER AND THE DIRECTION
+                if (patternScore < patternScoreInverse)
+                {
+                    direction = dataLayer.getSectorDirection(pattern, sector);
+                    //System.out.println("Pattern: " + pattern + " - Sector: " + sector + " - Direction: " + direction);
+                }
+                else if (patternScoreInverse < patternScore)
+                {
+                    direction = dataLayer.getSectorDirection(pattern + 1, sector);
+                    //System.out.println("Pattern: " + (pattern + 1) + " - Sector: " + sector + " - Direction: " + direction);
+                }
+                else
+                {
+                    System.out.println("Sector scores are equal for Pattern: " + pattern + " and its inverse Pattern: " + (pattern + 1) + " - Sector: " + sector);
+                }
+
+                if (direction.equals("UP"))
+                {
+                    upCounter = upCounter + 1;
+                }
+                else if (direction.equals("DOWN"))
+                {
+                    downCounter = downCounter + 1;
+                }
+                else
+                {
+                    levelCounter = levelCounter + 1;
+                }
+            }
+        }
+
+        System.out.println("---Totals for Direction of Sector which users performed poorly on" +
+                        "\nUP: " + upCounter +
+                        "\nDOWN: " + downCounter +
+                        "\nLEVEL: " + levelCounter);
+    }
+
+
+    private void directionOfSectorForDistanceFromTheMeanInStandardDeviationAnalysis()
+    {
+        double distanceFromTheMean = 0.0;
+        String direction = "";
+        int upCounterAboveTheMean = 0;
+        int downCounterAboveTheMean = 0;
+        int levelAboveCounter = 0;
+        int upCounterBelowTheMean = 0;
+        int downCounterBelowTheMean = 0;
+        int levelBelowCounter = 0;
+
+        for (int collection = 1; collection <= numberOfCollections; collection++)
+        {
+            for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
+            {
+                for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
+                {
+                    // GET USERS DISTANCE FROM THE MEAN IN SD VALUE
+                    distanceFromTheMean = dataLayer.getDistanceFromMeanInStandardDeviation(collection, pattern, sector);
+
+                    // CHECK IF ITS NEGATIVE
+                    if (distanceFromTheMean < 0)
+                    {
+                        //GET THE DIRECTION
+                        direction = dataLayer.getSectorDirection(pattern, sector);
+
+                        if (direction.equals("UP"))
+                        {
+                            upCounterBelowTheMean = upCounterBelowTheMean + 1;
+                        }
+                        else if (direction.equals("DOWN"))
+                        {
+                            downCounterBelowTheMean = downCounterBelowTheMean + 1;
+                        }
+                        else
+                        {
+                            levelBelowCounter = levelBelowCounter + 1;
+                        }
+
+                    }
+                    else if (distanceFromTheMean > 0)
+                    {
+                        //GET THE DIRECTION
+                        direction = dataLayer.getSectorDirection(pattern, sector);
+
+                        if (direction.equals("UP"))
+                        {
+                            upCounterAboveTheMean = upCounterAboveTheMean + 1;
+                        }
+                        else if (direction.equals("DOWN"))
+                        {
+                            downCounterAboveTheMean = downCounterAboveTheMean + 1;
+                        }
+                        else
+                        {
+                            levelAboveCounter = levelAboveCounter + 1;
+                        }
+
+                    }
+                    else
+                    {
+                        // Value is equal to the SD, therefore not interesting
+                    }
+
+
+
+                    // OUTPUT THE DATA
+
+
+                }
+            }
+
+            if ( (upCounterAboveTheMean + downCounterAboveTheMean + levelAboveCounter + upCounterBelowTheMean + downCounterBelowTheMean + levelBelowCounter) == 108)
+            {
+                System.out.println("\nCollection: " + collection +
+                        "\nTotal sectors above the mean in the UP direction: " + upCounterAboveTheMean +
+                        "\nTotal sectors above the mean in the DOWN direction: " + downCounterAboveTheMean +
+                        "\nTotal sectors above the mean in the LEVEL direction: " + levelAboveCounter +
+
+                        "\nTotal sectors below the mean in the UP direction: " + upCounterBelowTheMean +
+                        "\nTotal sectors below the mean in the DOWN direction: " + downCounterBelowTheMean +
+                        "\nTotal sectors below the mean in the LEVEL direction: " + levelBelowCounter);
+            }
+
+            upCounterAboveTheMean = 0;
+            downCounterAboveTheMean = 0;
+            levelAboveCounter = 0;
+            upCounterBelowTheMean = 0;
+            downCounterBelowTheMean = 0;
+            levelBelowCounter = 0;
+        }
+    }
+
+    // Rounds to 5 decimal places
+    private double roundADoubleValue(double value)
+    {
+        DecimalFormat newFormat = new DecimalFormat("#.#####");
+        return Double.valueOf(newFormat.format(value));
+    }
+
+    private void moreStandardDeviationCalcs()
+    {
         double value = 0;
 
         int greaterThan2SDCounter = 0;
@@ -74,29 +263,15 @@ public class APP_Layer implements APP_Layer_Interface
 
         int withinSDCounter = 0;
 
+        double distanceFromMeanInStandardDeviationCounter = 0;
+        double roundedValue = 0;
+
         for (int collection = 1; collection <= numberOfCollections; collection++)
         {
 
             for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
             {
-                // Patterns 1 + 2 + 3 + 4 have 9 sectors
-                if (pattern < 5)
-                {
-                    numberOfSectors = 9;
-                }
-                // Patterns 7 + 8 have 21 sectors
-                else if (pattern > 6)
-                {
-                    numberOfSectors = 21;
-                }
-                // Patterns 5 + 6 have 15 sectors
-                else
-                {
-                    numberOfSectors = 15;
-                }
-
-
-                for (int sector = 1; sector <= numberOfSectors; sector++)
+                for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
                 {
                     double distanceFromMean = dataLayer.getDistanceFromMeanInStandardDeviation(collection, pattern, sector);
 
@@ -112,7 +287,6 @@ public class APP_Layer implements APP_Layer_Interface
                     {
                         greaterThan1SDCounter = greaterThan1SDCounter + 1;
                     }
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////
                     else if (distanceFromMean < -2)
                     {
                         greaterThan2SDCounterNeg = greaterThan2SDCounterNeg + 1;
@@ -140,8 +314,6 @@ public class APP_Layer implements APP_Layer_Interface
                         listOfInterestingResults.add(distanceFromMean);
                     }
 
-
-
                     if (distanceFromMean >= 0)
                     {
                         value = value + distanceFromMean;
@@ -153,13 +325,14 @@ public class APP_Layer implements APP_Layer_Interface
                 }
             }
 
+            // Gets the User ID
             int userID = dataLayer.getCollectionsUserNo(collection);
 
 
             // Checks the each sector has been accounted for
             if (greaterThan2SDCounter + greaterThan1halfSDCounter + greaterThan1SDCounter + greaterThan2SDCounterNeg + greaterThan1halfSDCounterNeg + greaterThan1SDCounterNeg + withinSDCounter == totalNumberOfSectors)
             {
-
+                /*
                 System.out.println( "\nCollection: " + collection +
                                     "\nUser ID: " + userID +
                                     "\n\nNo of sectors with a positive value greater than 2 SD: " + greaterThan2SDCounter +
@@ -173,12 +346,12 @@ public class APP_Layer implements APP_Layer_Interface
                                     "\n\nNo of sectors within expected SD range: " + withinSDCounter +
                                     "\nTotal Average distance from mean in SD: " + (value / totalNumberOfSectors) +
                                     "\n------------------------------------------------------------------------------");
+                */
             }
             else
             {
                 System.out.println("Error with collection: " + collection + "'s SD calculations");
             }
-
 
             value = 0.0;
             greaterThan2SDCounter = 0;
@@ -194,19 +367,42 @@ public class APP_Layer implements APP_Layer_Interface
 
         for (int i = 0; i < listOfInterestingResults.size(); i = i + 4)
         {
+            /*
             System.out.println( "\n\nCollection: " + listOfInterestingResults.get(i) +
                                 "\nPattern: " + listOfInterestingResults.get(i + 1) +
                                 "\nSector: " + listOfInterestingResults.get(i + 2) +
                                 "\nValue: " + listOfInterestingResults.get(i + 3) +
                                 "\n----------------------------------------");
+            */
         }
 
 
+        for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
+        {
+            for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
+            {
+
+                for (int collection = 1; collection <= numberOfCollections; collection++)
+                {
+                    // Rounds Value to 5dp as the totals produced are large numbers
+
+                    distanceFromMeanInStandardDeviationCounter = distanceFromMeanInStandardDeviationCounter + dataLayer.getDistanceFromMeanInStandardDeviation(collection, pattern, sector);
+
+                    roundedValue = roundADoubleValue(distanceFromMeanInStandardDeviationCounter);
+                }
+
+                if (!dataLayer.storeTotalStandardDeviationScore(pattern, sector, roundedValue))
+                {
+                    System.out.println("Error storing total standard deviation score for Pattern: " + pattern + " - Sector:" + sector + " - SD Score: " + roundedValue);
+                }
+
+                distanceFromMeanInStandardDeviationCounter = 0;
+            }
+        }
     }
 
     private void prepareStandardDeviationDataToWriteToCSV()
     {
-        int numberOfSectors;
         String filepath;
         double value = 0;
         boolean isItTheFirstCollection = true;
@@ -218,27 +414,9 @@ public class APP_Layer implements APP_Layer_Interface
         {
             for (int collection = 1; collection <= numberOfCollections; collection++)
             {
-
                 for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
                 {
-                    // Patterns 1 + 2 + 3 + 4 have 9 sectors
-                    if (pattern < 5)
-                    {
-                        numberOfSectors = 9;
-                    }
-                    // Patterns 7 + 8 have 21 sectors
-                    else if (pattern > 6)
-                    {
-                        numberOfSectors = 21;
-                    }
-                    // Patterns 5 + 6 have 15 sectors
-                    else
-                    {
-                        numberOfSectors = 15;
-                    }
-
-
-                    for (int sector = 1; sector <= numberOfSectors; sector++)
+                    for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
                     {
                         value = dataLayer.getDistanceFromMeanInStandardDeviation(collection, pattern, sector);
                         filepath = "StandardDeviationData/Collection - " + collection + ".csv";
@@ -289,24 +467,7 @@ public class APP_Layer implements APP_Layer_Interface
         {
             for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
             {
-                // Patterns 1 + 2 + 3 + 4 have 9 sectors
-                if (pattern < 5)
-                {
-                    numberOfSectors = 9;
-                }
-                // Patterns 7 + 8 have 21 sectors
-                else if (pattern > 6)
-                {
-                    numberOfSectors = 21;
-                }
-                // Patterns 5 + 6 have 15 sectors
-                else
-                {
-                    numberOfSectors = 15;
-                }
-
-
-                for (int sector = 1; sector <= numberOfSectors; sector++)
+                for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
                 {
                     for (int collection = 1; collection <= numberOfCollections ; collection++)
                     {
@@ -376,28 +537,11 @@ public class APP_Layer implements APP_Layer_Interface
         double mean;
         double indexOfPerformance;
         double standardDeviation;
-        double difference;
+
 
         for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
         {
-            // Patterns 1 + 2 + 3 + 4 have 9 sectors
-            if (pattern < 5)
-            {
-                numberOfSectors = 9;
-            }
-            // Patterns 7 + 8 have 21 sectors
-            else if (pattern > 6)
-            {
-                numberOfSectors = 21;
-            }
-            // Patterns 5 + 6 have 15 sectors
-            else
-            {
-                numberOfSectors = 15;
-            }
-
-
-            for (int sector = 1; sector <= numberOfSectors; sector++)
+            for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
             {
                 // Get the Sector MEAN
                 mean = dataLayer.getSectorMean(pattern, sector);
@@ -432,11 +576,14 @@ public class APP_Layer implements APP_Layer_Interface
                     //System.out.println("Difference: " + difference);
                     */
 
-                    difference = (indexOfPerformance - mean) / standardDeviation;
+
+
+
+                    double roundedDifference = roundADoubleValue((indexOfPerformance - mean) / standardDeviation);
 
 
                     // Insert data into the db
-                    if (!dataLayer.storeUsersDistanceFromMeanInSD(collection, pattern, sector, difference))
+                    if (!dataLayer.storeUsersDistanceFromMeanInSD(collection, pattern, sector, roundedDifference))
                     {
                         System.out.println("Error adding the distance from mean in SD's to the DB for Collection: " + collection + "Pattern: " + pattern + " - Sector: " + sector);
                     }
@@ -460,7 +607,9 @@ public class APP_Layer implements APP_Layer_Interface
         }
 
         // Returns the mean
-        return  sum / length;
+
+
+        return roundADoubleValue(sum / length);
     }
 
     private double calculateSD(ArrayList<Double> listOfValues, double mean)
@@ -475,7 +624,7 @@ public class APP_Layer implements APP_Layer_Interface
         }
 
         // Calculates the square root of standardDeviation divided by the number of values in the data set, then returns that value
-        return Math.sqrt(standardDeviation / length);
+        return roundADoubleValue(Math.sqrt(standardDeviation / length));
 
         // Bessel's correction not needed
         // return Math.sqrt(standardDeviation / (length - 1));
@@ -554,9 +703,9 @@ public class APP_Layer implements APP_Layer_Interface
         boolean isSetupOk = true;
 
         // A FOR loop to iterate through each patterns coords
-        for (int i = 1; i <= numberOfPatterns; i++)
+        for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
         {
-            ArrayList coords = dataLayer.getPatternCoords(i);
+            ArrayList coords = dataLayer.getPatternCoords(pattern);
 
             isItTheFirstSector = true;
 
@@ -568,14 +717,17 @@ public class APP_Layer implements APP_Layer_Interface
 
                 double distance = calculateTheDistance(x , y);
                 double indexOfDifficulty = calculateTheIndexOfDifficulty(distance);
+                double roundedIndexOfDifficulty = roundADoubleValue(indexOfDifficulty);
 
-                if (!dataLayer.storeSectorIndexOfDifficultyAndDistance(i, (( j / 2 ) + 1), distance, indexOfDifficulty))
+                String direction = ascertainTheDirection(y);
+
+                if (!dataLayer.storeSectorIndexOfDifficultyAndDistanceAndDirection(pattern, (( j / 2 ) + 1), distance, roundedIndexOfDifficulty, direction))
                 {
-                    System.out.println("Error adding Index of Difficulty to the DB for Pattern: " + i + " - Sector: " + (( j / 2 ) + 1));
+                    System.out.println("Error adding Index of Difficulty to the DB for Pattern: " + pattern + " - Sector: " + (( j / 2 ) + 1));
                     isSetupOk = false;
                 }
 
-                listOfIndexOfDifficulty.add((double) (Integer) i);
+                listOfIndexOfDifficulty.add((double) (Integer) pattern);
                 listOfIndexOfDifficulty.add((double) (Integer) (( j / 2 ) + 1));
                 listOfIndexOfDifficulty.add(indexOfDifficulty);
 
@@ -600,31 +752,15 @@ public class APP_Layer implements APP_Layer_Interface
         int numberOfSectors;
 
         // Adds each collection of Coords to a list
-        for (int i = 1; i <= numberOfCollections; i++)
+        for (int collection = 1; collection <= numberOfCollections; collection++)
         {
-            for (int j = 1; j <= numberOfPatterns; j++)
+            for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
             {
-                // Patterns 1 + 2 + 3 + 4 have 9 sectors
-                if (j < 5)
-                {
-                    numberOfSectors = 9;
-                }
-                // Patterns 7 + 8 have 21 sectors
-                else if (j > 6)
-                {
-                    numberOfSectors = 21;
-                }
-                // Patterns 5 + 6 have 15 sectors
-                else
-                {
-                    numberOfSectors = 15;
-                }
-
                 isItTheFirstSector = true;
 
-                for (int k = 1; k <= numberOfSectors; k++)
+                for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
                 {
-                    listOfDrawnPathSectorCoords = dataLayer.getDrawnPathCoords(i, j, k);
+                    listOfDrawnPathSectorCoords = dataLayer.getDrawnPathCoords(collection, pattern, sector);
 
                     for (int m = 0; m < (listOfDrawnPathSectorCoords.size()) / 2; m = m + 2)
                     {
@@ -640,9 +776,9 @@ public class APP_Layer implements APP_Layer_Interface
                         totalDistanceDrawn = totalDistanceDrawn + listOfSectorCoords.get(n);
                     }
 
-                    if (!dataLayer.storeUserDrawnPathDistance(i, j, k, totalDistanceDrawn))
+                    if (!dataLayer.storeUserDrawnPathDistance(collection, pattern, sector, totalDistanceDrawn))
                     {
-                        System.out.println("Error adding distance drawn to the DB for Collection: " + i + " - Pattern: " + j + " - Sector: " + k);
+                        System.out.println("Error adding distance drawn to the DB for Collection: " + collection + " - Pattern: " + pattern + " - Sector: " + sector);
                         isSetupOk = false;
                     }
 
@@ -658,6 +794,7 @@ public class APP_Layer implements APP_Layer_Interface
         }
     }
     */
+
 
 
     private void setupIndexOfPerformance()
@@ -712,7 +849,45 @@ public class APP_Layer implements APP_Layer_Interface
         }
     }
 
+    private String ascertainTheDirection(double y)
+    {
+        String direction;
 
+        if (isItTheFirstSector)
+        {
+            if(y < startingY)
+            {
+                direction = "UP";
+            }
+            else if (y > startingY)
+            {
+                direction = "DOWN";
+            }
+            else
+            {
+                direction = "LEVEL";
+            }
+        }
+        else
+        {
+            if(y < oldY)
+            {
+                direction = "UP";
+            }
+            else if (y > oldY)
+            {
+                direction = "DOWN";
+            }
+            else
+            {
+                direction = "LEVEL";
+            }
+        }
+
+        oldY = y;
+        return direction;
+
+    }
 
 
     // Calculates the Distance between two Co ordinates
@@ -736,13 +911,13 @@ public class APP_Layer implements APP_Layer_Interface
         previousX = x;
         previousY = y;
 
-        return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+        return roundADoubleValue(Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2)));
     }
 
     // Calculates the Index of Difficulty
     private double calculateTheIndexOfDifficulty(double Distance)
     {
-        return (Math.log((2 * Distance) / targetWidth) / Math.log(2));
+        return roundADoubleValue (Math.log((2 * Distance) / targetWidth) / Math.log(2));
     }
 
 
@@ -750,8 +925,9 @@ public class APP_Layer implements APP_Layer_Interface
     private double calculateTheIndexOfPerformance(double IndexDifficulty, double MovementTime)
     {
         //System.out.println("Index of Performance: " + IndexDifficulty / MovementTime);
-        return (IndexDifficulty / MovementTime);
+        //return (IndexDifficulty / MovementTime);
 
+        return roundADoubleValue(IndexDifficulty / MovementTime);
     }
 
     // Calls the method `addNewDatabaseTables` from the datalayer

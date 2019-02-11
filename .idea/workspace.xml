@@ -14,8 +14,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/APP_Layer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="134" column="50" selection-start-line="134" selection-start-column="50" selection-end-line="134" selection-end-column="50" />
+            <state relative-caret-position="463">
+              <caret line="239" column="40" selection-start-line="239" selection-start-column="40" selection-end-line="239" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -26,13 +26,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/DATA_Layer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2771">
-              <caret line="164" column="50" selection-start-line="164" selection-start-column="50" selection-end-line="164" selection-end-column="50" />
+            <state relative-caret-position="15062">
+              <caret line="887" column="77" selection-start-line="887" selection-start-column="77" selection-end-line="887" selection-end-column="77" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -42,6 +52,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/src/Calculations.java" />
         <option value="$PROJECT_DIR$/src/DATA_Layer.java" />
         <option value="$PROJECT_DIR$/src/APP_Layer.java" />
       </list>
@@ -58,7 +69,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -75,14 +85,15 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549300969523" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Stuff/JARs/opencsv-4.3.2.jar!/" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549838611088" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Stuff/JARs/DatabaseConnection/protobuf-java-3.6.1.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -144,11 +155,16 @@
       <workItem from="1548973202905" duration="1500000" />
       <workItem from="1549299112600" duration="1858000" />
       <workItem from="1549301001241" duration="26000" />
+      <workItem from="1549553944676" duration="664000" />
+      <workItem from="1549800710622" duration="8930000" />
+      <workItem from="1549821717900" duration="13372000" />
+      <workItem from="1549838753405" duration="1759000" />
+      <workItem from="1549906752648" duration="9000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55322000" />
+    <option name="totallyTimeSpent" value="80056000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -161,8 +177,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31236672" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18017058" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -197,7 +214,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Pattern - 1 - Sector - 1.txt" />
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 8.txt" />
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 9.txt" />
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 2.txt" />
@@ -233,7 +249,6 @@
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 8 - Sector - 21.csv" />
     <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 1.csv" />
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 3.csv" />
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 1.csv" />
     <entry file="file://$PROJECT_DIR$/../Stuff/JARs/mysql-connector-java-8.0.13/mysql-connector-java-8.0.13/src/main/user-impl/java/com/mysql/cj/jdbc/exceptions/SQLError.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
@@ -248,51 +263,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 3.csv" />
+    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 1.csv" />
+    <entry file="file://$PROJECT_DIR$/src/GUI_Layer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 1.csv" />
     <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 2.csv" />
+    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 3.csv" />
+    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 4.csv" />
+    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 5.csv" />
     <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 6.csv" />
     <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 7.csv" />
     <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 8.csv" />
-    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 5.csv">
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="-1452" />
-      </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 4.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 9.csv">
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="-1452" />
-      </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 11.csv">
-      <provider selected="true" editor-type-id="csv-text-editor">
-        <state relative-caret-position="-738" />
-      </provider>
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 1.csv">
-      <provider selected="true" editor-type-id="csv-text-editor" />
-      <provider editor-type-id="csv-table-editor">
-        <state showInfoPanel="true" fixedHeaders="false" rowLines="3" />
+    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 9.csv" />
+    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 10.csv" />
+    <entry file="file://$PROJECT_DIR$/StandardDeviationData/Collection - 11.csv" />
+    <entry file="file://$PROJECT_DIR$/src/Calculations.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="4" lean-forward="true" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/APP_Layer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="134" column="50" selection-start-line="134" selection-start-column="50" selection-end-line="134" selection-end-column="50" />
+        <state relative-caret-position="463">
+          <caret line="239" column="40" selection-start-line="239" selection-start-column="40" selection-end-line="239" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -301,8 +301,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/DATA_Layer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2771">
-          <caret line="164" column="50" selection-start-line="164" selection-start-column="50" selection-end-line="164" selection-end-column="50" />
+        <state relative-caret-position="15062">
+          <caret line="887" column="77" selection-start-line="887" selection-start-column="77" selection-end-line="887" selection-end-column="77" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

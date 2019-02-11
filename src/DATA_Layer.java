@@ -21,6 +21,8 @@ public class DATA_Layer implements DATA_Layer_Interface
     // Adds the new tables need to store the results from calculations
     public boolean addNewDatabaseTables()
     {
+        Connection connection;
+
         try
         {
             connection = connectToDatabase();
@@ -38,6 +40,8 @@ public class DATA_Layer implements DATA_Layer_Interface
                     " `IndexOfDifficulty`	REAL, " +
                     " `Mean`	REAL, " +
                     " `StandardDeviation`	REAL, " +
+                    " `TotalStandardDeviationScore`	REAL, " +
+                    " `Direction`	VARCHAR(6), " +
                     " PRIMARY KEY (`SectorDataID`), " +
                     " FOREIGN KEY(`PatternRef`) REFERENCES `Pattern`(`PatternID`) " +
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8;");
@@ -50,7 +54,7 @@ public class DATA_Layer implements DATA_Layer_Interface
                     " `CollectionRef`	INTEGER, " +
                     " `PatternRef`	INTEGER, " +
                     " `SectorNumber`	INTEGER, " +
-                  //" `DistanceOfDrawnPath`	REAL, " +
+                    //" `DistanceOfDrawnPath`	REAL, " +
                     " `IndexOfPerformance`	REAL, " +
                     " `DistanceFromMeanInStandardDeviation`	REAL, " +
                     " PRIMARY KEY (`userPerformanceDataID`), " +
@@ -251,6 +255,75 @@ public class DATA_Layer implements DATA_Layer_Interface
         }
 
         return mean;
+    }
+
+    public double getTotalStandardDeviationScore(int pattern, int sector)
+    {
+        double score = 0.0;
+
+        try
+        {
+            ResultSet result = connectToDatabase("SELECT * FROM SectorData WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+
+            result.beforeFirst();
+
+            while (result.next())
+            {
+                score = result.getDouble("TotalStandardDeviationScore");
+            }
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return score;
+
+    }
+
+    public String getSectorDirection(int pattern, int sector)
+    {
+        String direction = "";
+
+        try
+        {
+            ResultSet result = connectToDatabase("SELECT * FROM SectorData WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
+
+            result.beforeFirst();
+
+            while (result.next())
+            {
+                direction = result.getString("Direction");
+            }
+
+            statement.close();
+            connection.close();
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return direction;
     }
 
 
@@ -522,6 +595,58 @@ public class DATA_Layer implements DATA_Layer_Interface
 
     }
 
+
+    public boolean storeTotalStandardDeviationScore(int pattern, int sector, double totalStandardDeviationScore)
+    {
+        try
+        {
+            connection = connectToDatabase();
+
+            // Create a new SQL statement, build the query then executes the statement
+            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            String query = "SELECT * FROM SectorData WHERE PatternRef = '" + pattern + "' AND SectorNumber = '" + sector+ "'";
+
+            ResultSet result = statement.executeQuery(query);
+
+            // If there is a result then enter the if statement
+            if (result.isBeforeFirst())
+            {
+                // Sets the ResultSet to the first entry
+                result.first();
+
+                // Updates the Mean value
+                result.updateDouble("TotalStandardDeviationScore", totalStandardDeviationScore);
+
+                // Update the row in the DB
+                result.updateRow();
+            }
+            else
+            {
+                return false;
+            }
+
+            statement.close();
+            connection.close();
+            return true;
+
+        }
+        catch (SQLException ex)
+        {
+            sqlEx(ex);
+        }
+        catch (NullPointerException ex)
+        {
+            nullEx(ex);
+        }
+        catch (Exception ex)
+        {
+            generalException(ex);
+        }
+
+        return false;
+    }
+
+
     public boolean storeUserIndexOfPerformance(int collection, int pattern, int sector, double indexOfPerformance)
     {
         try
@@ -559,18 +684,19 @@ public class DATA_Layer implements DATA_Layer_Interface
     }
 
 
-    public boolean storeSectorIndexOfDifficultyAndDistance(int pattern, int sector, double distance, double indexOfDifficulty)
+    public boolean storeSectorIndexOfDifficultyAndDistanceAndDirection(int pattern, int sector, double distance, double indexOfDifficulty, String direction)
     {
         try
         {
             connection = connectToDatabase();
 
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO SectorData(PatternRef, SectorNumber, Distance, IndexOfDifficulty) VALUES (?, ?, ?, ?)");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO SectorData(PatternRef, SectorNumber, Distance, IndexOfDifficulty, Direction) VALUES (?, ?, ?, ?, ?)");
             {
                 statement.setInt(1, pattern);
                 statement.setInt(2, sector);
                 statement.setDouble(3, distance);
                 statement.setDouble(4, indexOfDifficulty);
+                statement.setString(5, direction);
                 statement.executeUpdate();
             }
 
@@ -784,7 +910,6 @@ public class DATA_Layer implements DATA_Layer_Interface
         return null;
     }
 
-
     private Connection connectToDatabase()
     {
         try
@@ -794,7 +919,6 @@ public class DATA_Layer implements DATA_Layer_Interface
 
             //Establishes a connection to the database
             return DriverManager.getConnection("jdbc:mysql://localhost/honours-project?user=candidwebuser&password=pw4candid");
-
         }
         catch (ClassNotFoundException ex)
         {
