@@ -441,16 +441,14 @@ public class APP_Layer implements APP_Layer_Interface
         }
     }
 
+/*
     private void prepareIndexOfPerformanceDataToWriteToCSV()
     {
         double value = 0;
         boolean isItTheFirstSectorIOP = true;
-        /* DISTANCE DRAWN CODE
-        boolean isItTheFirstDistanceDrawn = true;
-        */
+
 
         String filepath;
-        int numberOfSectors;
         ArrayList<Double> listOfIOPValues = new ArrayList<>();
         double standardDeviation;
         double mean;
@@ -458,12 +456,84 @@ public class APP_Layer implements APP_Layer_Interface
         // Creates a folder inside the project for Data CSV
         File fileIOP = new File("SectorIndexOfPerformanceData");
 
+
+
+        if (fileIOP.mkdir())
+        {
+            for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
+            {
+                for (int sector = 1; sector <= getNumberOfSectors(pattern); sector++)
+                {
+                    for (int collection = 1; collection <= numberOfCollections ; collection++)
+                    {
+
+                        value = dataLayer.getSectorIndexOfPerformance(collection, pattern, sector, "IndexOfPerformance");
+                        filepath = "SectorIndexOfPerformanceData/Data.csv";
+
+                        if (isItTheFirstSectorIOP)
+                        {
+                            setRowHeadingsCSV(filepath, "Index of Performance");
+                            isItTheFirstSectorIOP = false;
+                        }
+
+                        exportDataToCSV(filepath, value);
+
+                        listOfIOPValues.add(value);
+                    }
+
+                    // Gets the mean
+                    mean = calculateMean(listOfIOPValues);
+
+                    // Gets the standard deviation
+                    standardDeviation = calculateSD(listOfIOPValues, mean);
+
+                    //System.out.println("Pattern: " + pattern + " - Sector: " + sector + " - Standard Deviation: " + standardDeviation);
+
+                    // Inserts the standard deviation into the db table sectorData
+                    if (!dataLayer.storeSectorStandardDeviationAndMean(pattern, sector, standardDeviation, mean))
+                    {
+                        System.out.println("Error inserting standard deviation data");
+                    }
+
+                    //isItTheFirstSectorIOP = true;
+                }
+            }
+
+            System.out.println("Exported Data to CSV Files: Completed");
+        }
+        else
+        {
+            System.out.println("Error creating new directory - *Hint* did the directory already exist?");
+        }
+    }
+*/
+
+
+    private void prepareIndexOfPerformanceDataToWriteToCSV()
+    {
+        double value = 0;
+        boolean isItTheFirstSectorIOP = true;
+        boolean isItTheFirstSectorIOPAllInOneFile = true;
+        /* DISTANCE DRAWN CODE
+        boolean isItTheFirstDistanceDrawn = true;
+        */
+
+        String filepath;
+        String filepathAllInOneFile;
+        ArrayList<Double> listOfIOPValues = new ArrayList<>();
+        double standardDeviation;
+        double mean;
+
+        // Creates a folder inside the project for Data CSV
+        File fileIOP = new File("SectorIndexOfPerformanceData");
+        File fileIOPAllInOneFile = new File("SectorIndexOfPerformanceDataAllInOneFile");
+
          /* DISTANCE DRAWN CODE
         File fileDrawnPath = new File("DistanceOfDrawnPathData");
         if (fileIOP.mkdir() && fileDrawnPath.mkdir())
         */
 
-        if (fileIOP.mkdir())
+        if (fileIOP.mkdir() && fileIOPAllInOneFile.mkdir())
         {
             for (int pattern = 1; pattern <= numberOfPatterns; pattern++)
             {
@@ -483,6 +553,16 @@ public class APP_Layer implements APP_Layer_Interface
 
                         exportDataToCSV(filepath, collection, pattern, sector, value);
 
+
+                        filepathAllInOneFile = "SectorIndexOfPerformanceDataAllInOneFile/Data.csv";
+
+                        if (isItTheFirstSectorIOPAllInOneFile)
+                        {
+                            setRowHeadingsCSV(filepathAllInOneFile, "Index of Performance");
+                            isItTheFirstSectorIOPAllInOneFile = false;
+                        }
+
+                        exportDataToCSV(filepathAllInOneFile, value);
 
 
                         /* DISTANCE DRAWN CODE
@@ -531,9 +611,9 @@ public class APP_Layer implements APP_Layer_Interface
         }
     }
 
+
     private void calculateUserSectorDistanceFromMeanInSD()
     {
-        int numberOfSectors;
         double mean;
         double indexOfPerformance;
         double standardDeviation;
@@ -641,6 +721,27 @@ public class APP_Layer implements APP_Layer_Interface
             PrintWriter pw = new PrintWriter(bw);
 
             pw.println(collection + ", " + pattern + ", " + sector + ", " + value);
+            pw.flush();
+            pw.close();
+        }
+        catch (Exception ex)
+        {
+            System.out.println("CSV File NOT saved");
+            System.out.println(ex);
+            ex.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    private void exportDataToCSV(String filepath, double value)
+    {
+        try
+        {
+            FileWriter fw = new FileWriter(filepath, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            pw.println(value);
             pw.flush();
             pw.close();
         }
