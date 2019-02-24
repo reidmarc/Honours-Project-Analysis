@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class APP_Layer implements APP_Layer_Interface
@@ -28,23 +25,14 @@ public class APP_Layer implements APP_Layer_Interface
     private ArrayList<Double> listOfIndexOfPerformance = new ArrayList<>();
     private ArrayList<ArrayList<Double>> listOfListOfIndexOfPerformance = new ArrayList<>();
 
-
-
-
-
-
-
-
     public APP_Layer(DATA_Layer dataLayer)
     {
         this.dataLayer = dataLayer;
-
-        initialStartup();
     }
 
 
 
-    private void initialStartup()
+    public void initialStartup()
     {
         calculations = new Calculations();
         analysis = new Analysis();
@@ -73,19 +61,6 @@ public class APP_Layer implements APP_Layer_Interface
 
         analysis.directionOfSectorForDistanceFromTheMeanInStandardDeviationAnalysis(numberOfCollections, numberOfPatterns, calculations, dataLayer);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     private void prepareStandardDeviationDataToWriteToCSV()
@@ -247,25 +222,6 @@ public class APP_Layer implements APP_Layer_Interface
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void setupIndexOfDifficulty()
     {
         boolean isSetupOk = true;
@@ -308,10 +264,6 @@ public class APP_Layer implements APP_Layer_Interface
             System.out.println("Index of Difficulty calculations: Completed");
         }
     }
-
-
-
-
 
     private void setupIndexOfPerformance()
     {
@@ -404,14 +356,6 @@ public class APP_Layer implements APP_Layer_Interface
         return direction;
 
     }
-
-
-
-
-
-
-
-
 
     // Calls the method `addNewDatabaseTables` from the datalayer
     private void setupDatabase()

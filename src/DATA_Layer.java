@@ -7,10 +7,6 @@ public class DATA_Layer implements DATA_Layer_Interface
     private Connection connection;
     private Statement statement;
 
-    //private boolean dataExists = false;
-
-    //private int count = 0;
-
 
     // Default Constructor
     public DATA_Layer()
@@ -410,49 +406,6 @@ public class DATA_Layer implements DATA_Layer_Interface
     }
 
 
-    /* DISTANCE DRAWN CODE
-    public ArrayList getDrawnPathCoords(int collection, int pattern, int sector)
-    {
-        ArrayList<Double> listOfDrawnPathSectorCoords = new ArrayList<>();
-
-        try
-        {
-            ResultSet result = connectToDatabase("SELECT * FROM Coords WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'");
-
-            result.beforeFirst();
-
-            while (result.next())
-            {
-                listOfDrawnPathSectorCoords.add(result.getDouble("DrawnPathX"));
-                listOfDrawnPathSectorCoords.add(result.getDouble("DrawnPathY"));
-            }
-
-            statement.close();
-            connection.close();
-        }
-        catch (SQLException ex)
-        {
-            sqlEx(ex);
-        }
-        catch (NullPointerException ex)
-        {
-            nullEx(ex);
-        }
-        catch (Exception ex)
-        {
-            generalException(ex);
-        }
-
-        return listOfDrawnPathSectorCoords;
-    }
-    */
-
-
-
-
-    //region Pattern Related
-
-
     // Gets the number of patterns stored in the DB
     public int getNumberOfPatterns()
     {
@@ -822,61 +775,6 @@ public class DATA_Layer implements DATA_Layer_Interface
         return false;
     }
 
-    /* DISTANCE DRAWN CODE
-    public boolean storeUserDrawnPathDistance(int collection, int pattern, int sector, double distanceDrawn)
-    {
-        try
-        {
-            connection = connectToDatabase();
-
-            // Create a new SQL statement, build the query then executes the statement
-            Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            String query = "SELECT * FROM userPerformanceData WHERE CollectionRef = '" + collection + "' AND PatternRef = '" + pattern + "' AND SectorNumber = '" + sector + "'";
-            ResultSet result = statement.executeQuery(query);
-
-            // If there is a result then enter the if statement
-            if (result.isBeforeFirst())
-            {
-                // Sets the ResultSet to the first entry
-                result.first();
-
-                // Updates the relevant columns in the DB
-                result.updateDouble("DistanceOfDrawnPath", distanceDrawn);
-
-                // Update the row in the DB
-                result.updateRow();
-
-                result.close();
-                connection.close();
-            }
-            else
-            {
-                result.close();
-                connection.close();
-                return false;
-            }
-
-        }
-        catch (SQLException ex)
-        {
-            sqlEx(ex);
-        }
-        catch (NullPointerException ex)
-        {
-            nullEx(ex);
-        }
-        catch (Exception ex)
-        {
-            generalException(ex);
-        }
-
-        return true;
-    }
-    */
-
-    //endregion
-
-    //region Private Methods
     private ResultSet connectToDatabase(String query)
     {
         try
@@ -936,8 +834,6 @@ public class DATA_Layer implements DATA_Layer_Interface
         return null;
     }
 
-
-
     private void classNotFoundEx(ClassNotFoundException ex)
     {
         // Removes duplicate code when an exception is raised
@@ -972,9 +868,4 @@ public class DATA_Layer implements DATA_Layer_Interface
         ex.printStackTrace();
         System.exit(-1);
     }
-
-
-
-
-    //endregion
 }
