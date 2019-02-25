@@ -46,6 +46,11 @@ public class Calculations
     // Calculates the Index of Difficulty
     public double calculateTheIndexOfDifficulty(double Distance)
     {
+        if (Double.compare(Distance, 0.0) <= 0)
+        {
+            return 0.0;
+        }
+
         return roundADoubleValue (Math.log((2 * Distance) / targetWidth) / Math.log(2));
     }
 
@@ -53,6 +58,11 @@ public class Calculations
     // Calculates the Index of Performance
     public double calculateTheIndexOfPerformance(double IndexDifficulty, double MovementTime)
     {
+        if (Double.compare(MovementTime, 0.0) <= 0)
+        {
+            return 0.0;
+        }
+
         return roundADoubleValue(IndexDifficulty / MovementTime);
     }
 
@@ -158,12 +168,6 @@ public class Calculations
         }
 
         return numberOfSectors;
-    }
-
-
-    public double getStartingX()
-    {
-        return startingX;
     }
 
     public double getStartingY()

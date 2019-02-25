@@ -14,8 +14,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/APP_Layer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+            <state relative-caret-position="357">
+              <caret line="22" column="64" lean-forward="true" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="74" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -24,10 +24,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/TestSuite.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Calculations.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="102">
+              <caret line="60" column="39" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -53,7 +65,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/HonoursProjectAnalysis.java" />
-        <option value="$PROJECT_DIR$/src/Calculations.java" />
         <option value="$PROJECT_DIR$/src/Analysis.java" />
         <option value="$PROJECT_DIR$/src/ExportData.java" />
         <option value="$PROJECT_DIR$/src/GUI_Layer.java" />
@@ -61,14 +72,20 @@
         <option value="$PROJECT_DIR$/src/APP_Layer.java" />
         <option value="$PROJECT_DIR$/src/DATA_Layer_Interface.java" />
         <option value="$PROJECT_DIR$/src/DATA_Layer.java" />
+        <option value="$PROJECT_DIR$/src/Testing/TestPrimer.java" />
+        <option value="$PROJECT_DIR$/src/Testing/Retry.java" />
+        <option value="$PROJECT_DIR$/src/Testing/TestRules.java" />
+        <option value="$PROJECT_DIR$/src/Testing/TestSuite.java" />
+        <option value="$PROJECT_DIR$/src/Calculations.java" />
+        <option value="$PROJECT_DIR$/src/TestSuite.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-37" />
-    <option name="y" value="16" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
     <option name="width" value="1936" />
-    <option name="height" value="1176" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -76,7 +93,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -93,12 +109,17 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550925655799" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1551137999820" />
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -119,17 +140,63 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="HonoursProjectAnalysis" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="HonoursProjectAnalysis" />
+  <component name="RunManager" selected="JUnit.TestSuite">
+    <configuration name="TestSuite" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Honours-Project-Analysis" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestSuite" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSuite.calculateTheDistance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Honours-Project-Analysis" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestSuite" />
+      <option name="METHOD_NAME" value="calculateTheDistance" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSuite.calculateTheIndexOfDifficulty" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Honours-Project-Analysis" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestSuite" />
+      <option name="METHOD_NAME" value="calculateTheIndexOfDifficulty" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSuite.calculateTheIndexOfPerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Honours-Project-Analysis" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestSuite" />
+      <option name="METHOD_NAME" value="calculateTheIndexOfPerformance" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestSuite.roundADouble" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Honours-Project-Analysis" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="TestSuite" />
+      <option name="METHOD_NAME" value="roundADouble" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.HonoursProjectAnalysis" />
+        <item itemvalue="JUnit.TestSuite" />
+        <item itemvalue="JUnit.TestSuite.calculateTheIndexOfPerformance" />
+        <item itemvalue="JUnit.TestSuite.calculateTheIndexOfDifficulty" />
+        <item itemvalue="JUnit.TestSuite.roundADouble" />
+        <item itemvalue="JUnit.TestSuite.calculateTheDistance" />
       </list>
     </recent_temporary>
   </component>
@@ -183,11 +250,45 @@
       <workItem from="1550943284887" duration="631000" />
       <workItem from="1551028357689" duration="1419000" />
       <workItem from="1551039961165" duration="5000" />
+      <workItem from="1551040036699" duration="1305000" />
+      <workItem from="1551125816426" duration="12207000" />
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="TestSuite_calculateTheIndexOfPerformance - 2019.02.25 at 23h 14m 51s.xml">
+      <configuration name="TestSuite.calculateTheIndexOfPerformance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite_calculateTheIndexOfPerformance - 2019.02.25 at 23h 16m 30s.xml">
+      <configuration name="TestSuite.calculateTheIndexOfPerformance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite_calculateTheIndexOfPerformance - 2019.02.25 at 23h 27m 53s.xml">
+      <configuration name="TestSuite.calculateTheIndexOfPerformance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite_calculateTheIndexOfPerformance - 2019.02.25 at 23h 29m 32s.xml">
+      <configuration name="TestSuite.calculateTheIndexOfPerformance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite_calculateTheIndexOfPerformance - 2019.02.25 at 23h 32m 16s.xml">
+      <configuration name="TestSuite.calculateTheIndexOfPerformance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite - 2019.02.25 at 23h 33m 11s.xml">
+      <configuration name="TestSuite" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite - 2019.02.25 at 23h 33m 50s.xml">
+      <configuration name="TestSuite" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite_calculateTheIndexOfPerformance - 2019.02.25 at 23h 38m 50s.xml">
+      <configuration name="TestSuite.calculateTheIndexOfPerformance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite_calculateTheIndexOfPerformance - 2019.02.25 at 23h 39m 31s.xml">
+      <configuration name="TestSuite.calculateTheIndexOfPerformance" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="TestSuite - 2019.02.25 at 23h 40m 00s.xml">
+      <configuration name="TestSuite" configurationId="JUnit" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="101245000" />
+    <option name="totallyTimeSpent" value="114757000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -202,7 +303,7 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21321961" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21748401" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -211,7 +312,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.32936078" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32936078" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3033586" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38136512" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -239,10 +340,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 5 - Sector - 5.csv" />
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 1 - Sector - 8.csv" />
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 4 - Sector - 9.csv" />
-    <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 3 - Sector - 8.csv" />
     <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 3 - Sector - 9.csv" />
     <entry file="file://$PROJECT_DIR$/DistanceOfDrawnPathData/Pattern - 2 - Sector - 9.csv" />
     <entry file="file://$PROJECT_DIR$/SectorIndexOfPerformanceData/Pattern - 1 - Sector - 8.csv" />
@@ -353,10 +450,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/APP_Layer.java">
+    <entry file="file://$PROJECT_DIR$/src/TestSuite.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+          <caret line="2" column="22" lean-forward="true" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Testing/TestRules.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Testing/Retry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="10" column="32" lean-forward="true" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#238#239#0" expanded="true" />
+            <element signature="e#282#283#0" expanded="true" />
+            <element signature="e#535#1261#0" expanded="true" />
+            <element signature="e#1260#1261#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/APP_Layer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="64" lean-forward="true" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="74" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -365,8 +493,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Calculations.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="102">
+          <caret line="60" column="39" selection-start-line="60" selection-start-column="39" selection-end-line="60" selection-end-column="39" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/TestSuite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
