@@ -31,7 +31,7 @@ public class Analysis
     {
         double value = 0;
 
-        double distanceFromMeanInStandardDeviationTotal = 0;
+        double totalIPofSector = 0;
         double roundedValue = 0;
 
         for (int collection = 1; collection <= numberOfCollections; collection++)
@@ -98,21 +98,22 @@ public class Analysis
 
 
             // Checks the each sector has been accounted for
-            if (greaterThan2SDCounter + greaterThan1halfSDCounter + greaterThan1SDCounter + greaterThan2SDCounterNeg + greaterThan1halfSDCounterNeg + greaterThan1SDCounterNeg + withinSDCounter == totalNumberOfSectors)
+            if (greaterThan2SDCounter + greaterThan1halfSDCounter + greaterThan1SDCounter + greaterThan2SDCounterNeg +
+                    greaterThan1halfSDCounterNeg + greaterThan1SDCounterNeg + withinSDCounter == totalNumberOfSectors)
             {
                 System.out.println( "\nCollection: " + collection +
-                                    "\nUser ID: " + userID +
-                                    "\n\nNo of sectors with a positive value greater than 2 SD: " + greaterThan2SDCounter +
-                                    "\nNo of sectors with a positive value greater than 1.5 SD and less than 2 SD: " + greaterThan1halfSDCounter +
-                                    "\nNo of sectors with a positive value greater than 1 SD and less than 1.5 SD: " + greaterThan1SDCounter +
+                "\nUser ID: " + userID +
+                "\n\nNo of sectors with a positive value greater than 2 SD: " + greaterThan2SDCounter +
+                "\nNo of sectors with a positive value greater than 1.5 SD and less than 2 SD: " + greaterThan1halfSDCounter +
+                "\nNo of sectors with a positive value greater than 1 SD and less than 1.5 SD: " + greaterThan1SDCounter +
 
-                                    "\n\nNo of sectors with a negative value greater than 2 SD: " + greaterThan2SDCounterNeg +
-                                    "\nNo of sectors with a negative value greater than 1.5 SD and less than 2 SD: " + greaterThan1halfSDCounterNeg +
-                                    "\nNo of sectors with a negative value greater than 1 SD and less than 1.5 SD: " + greaterThan1SDCounterNeg +
+                "\n\nNo of sectors with a negative value greater than 2 SD: " + greaterThan2SDCounterNeg +
+                "\nNo of sectors with a negative value greater than 1.5 SD and less than 2 SD: " + greaterThan1halfSDCounterNeg +
+                "\nNo of sectors with a negative value greater than 1 SD and less than 1.5 SD: " + greaterThan1SDCounterNeg +
 
-                                    "\n\nNo of sectors within expected SD range: " + withinSDCounter +
-                                    "\nTotal Average distance from mean in SD: " + (value / totalNumberOfSectors) +
-                                    "\n------------------------------------------------------------------------------");
+                "\n\nNo of sectors within expected SD range: " + withinSDCounter +
+                "\nTotal Average distance from mean in SD: " + (value / totalNumberOfSectors) +
+                "\n------------------------------------------------------------------------------");
             }
             else
             {
@@ -148,17 +149,17 @@ public class Analysis
 
                 for (int collection = 1; collection <= numberOfCollections; collection++)
                 {
-                    distanceFromMeanInStandardDeviationTotal = distanceFromMeanInStandardDeviationTotal + dataLayer.getDistanceFromMeanInStandardDeviation(collection, pattern, sector);
+                    totalIPofSector = totalIPofSector + dataLayer.getSectorIndexOfPerformance(collection, pattern, sector, "IndexOfPerformance");
 
-                    roundedValue = calculations.roundADoubleValue(distanceFromMeanInStandardDeviationTotal);
+                    roundedValue = calculations.roundADoubleValue(totalIPofSector);
                 }
 
-                if (!dataLayer.storeTotalStandardDeviationScore(pattern, sector, roundedValue))
+                if (!dataLayer.storeIPTotal(pattern, sector, roundedValue))
                 {
                     System.out.println("Error storing total standard deviation score for Pattern: " + pattern + " - Sector:" + sector + " - SD Score: " + roundedValue);
                 }
 
-                distanceFromMeanInStandardDeviationTotal = 0;
+                totalIPofSector = 0;
             }
         }
     }
@@ -176,10 +177,10 @@ public class Analysis
 
 
                 // GET PATTERN 1 SECTOR 1 SCORE
-                patternScore = dataLayer.getTotalStandardDeviationScore(pattern, sector);
+                patternScore = dataLayer.getTotalIP(pattern, sector);
 
-                // GET PATTERN 2 SECTOR 2 SCORE
-                patternScoreInverse = dataLayer.getTotalStandardDeviationScore(pattern + 1, sector);
+                // GET PATTERN 2 SECTOR 1 SCORE
+                patternScoreInverse = dataLayer.getTotalIP(pattern + 1, sector);
 
                 // COMPARE TO SEE WHICH IS LOWER AND OUTPUT THE LOWER AND THE DIRECTION
                 if (patternScore < patternScoreInverse)
@@ -288,16 +289,21 @@ public class Analysis
             }
 
             // Checks that all values are accounted for
-            if ( (upCounterAboveTheMean + downCounterAboveTheMean + levelAboveCounter + upCounterBelowTheMean + downCounterBelowTheMean + levelBelowCounter) == totalNumberOfSectors)
+            if ((upCounterAboveTheMean + downCounterAboveTheMean + levelAboveCounter + upCounterBelowTheMean +
+                    downCounterBelowTheMean + levelBelowCounter) == totalNumberOfSectors)
             {
                 System.out.println("\nCollection: " + collection +
-                        "\nTotal sectors above the mean in the UP direction: " + upCounterAboveTheMean +
-                        "\nTotal sectors above the mean in the DOWN direction: " + downCounterAboveTheMean +
-                        "\nTotal sectors above the mean in the LEVEL direction: " + levelAboveCounter +
+                "\nTotal sectors above the mean in the UP direction: " + upCounterAboveTheMean +
+                "\nTotal sectors above the mean in the DOWN direction: " + downCounterAboveTheMean +
+                "\nTotal sectors above the mean in the LEVEL direction: " + levelAboveCounter +
 
-                        "\nTotal sectors below the mean in the UP direction: " + upCounterBelowTheMean +
-                        "\nTotal sectors below the mean in the DOWN direction: " + downCounterBelowTheMean +
-                        "\nTotal sectors below the mean in the LEVEL direction: " + levelBelowCounter);
+                "\nTotal sectors below the mean in the UP direction: " + upCounterBelowTheMean +
+                "\nTotal sectors below the mean in the DOWN direction: " + downCounterBelowTheMean +
+                "\nTotal sectors below the mean in the LEVEL direction: " + levelBelowCounter);
+            }
+            else
+            {
+                System.out.println("Error with collection: " + collection + "'s Directions");
             }
 
             // Resets counters to 0

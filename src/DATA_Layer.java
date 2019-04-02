@@ -2,6 +2,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 
+
 public class DATA_Layer implements DATA_Layer_Interface
 {
     private Connection connection;
@@ -36,7 +37,7 @@ public class DATA_Layer implements DATA_Layer_Interface
                     " `IndexOfDifficulty`	REAL, " +
                     " `Mean`	REAL, " +
                     " `StandardDeviation`	REAL, " +
-                    " `TotalStandardDeviationScore`	REAL, " +
+                    " `TotalIP`	REAL, " +
                     " `Direction`	VARCHAR(6), " +
                     " PRIMARY KEY (`SectorDataID`), " +
                     " FOREIGN KEY(`PatternRef`) REFERENCES `Pattern`(`PatternID`) " +
@@ -253,7 +254,7 @@ public class DATA_Layer implements DATA_Layer_Interface
         return mean;
     }
 
-    public double getTotalStandardDeviationScore(int pattern, int sector)
+    public double getTotalIP(int pattern, int sector)
     {
         double score = 0.0;
 
@@ -265,7 +266,7 @@ public class DATA_Layer implements DATA_Layer_Interface
 
             while (result.next())
             {
-                score = result.getDouble("TotalStandardDeviationScore");
+                score = result.getDouble("TotalIP");
             }
 
             statement.close();
@@ -549,7 +550,7 @@ public class DATA_Layer implements DATA_Layer_Interface
     }
 
 
-    public boolean storeTotalStandardDeviationScore(int pattern, int sector, double totalStandardDeviationScore)
+    public boolean storeIPTotal(int pattern, int sector, double totalIP)
     {
         try
         {
@@ -568,7 +569,7 @@ public class DATA_Layer implements DATA_Layer_Interface
                 result.first();
 
                 // Updates the Mean value
-                result.updateDouble("TotalStandardDeviationScore", totalStandardDeviationScore);
+                result.updateDouble("TotalIP", totalIP);
 
                 // Update the row in the DB
                 result.updateRow();
@@ -815,8 +816,10 @@ public class DATA_Layer implements DATA_Layer_Interface
             // Loads the driver
             Class.forName("com.mysql.cj.jdbc.Driver");
 
+            String url = "jdbc:mysql://localhost/honours-project?user=candidwebuser&password=pw4candid";
+
             //Establishes a connection to the database
-            return DriverManager.getConnection("jdbc:mysql://localhost/honours-project?user=candidwebuser&password=pw4candid");
+            return DriverManager.getConnection(url);
         }
         catch (ClassNotFoundException ex)
         {

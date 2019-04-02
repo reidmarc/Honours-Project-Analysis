@@ -44,14 +44,14 @@ public class Calculations
 
 
     // Calculates the Index of Difficulty
-    public double calculateTheIndexOfDifficulty(double Distance)
+    public double calculateTheIndexOfDifficulty(double distance)
     {
-        if (Double.compare(Distance, 0.0) <= 0)
+        if (Double.compare(distance, 0.0) <= 0)
         {
             return 0.0;
         }
 
-        return roundADoubleValue (Math.log((2 * Distance) / targetWidth) / Math.log(2));
+        return roundADoubleValue (Math.log((2 * distance) / targetWidth) / Math.log(2));
     }
 
 

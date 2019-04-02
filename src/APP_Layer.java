@@ -17,8 +17,6 @@ public class APP_Layer implements APP_Layer_Interface
 
     private double oldY;
 
-
-
     private ArrayList<ArrayList<Double>> listOfTimings = new ArrayList<>();
     private ArrayList<Double> listOfIndexOfDifficulty = new ArrayList<>();
 
@@ -31,13 +29,12 @@ public class APP_Layer implements APP_Layer_Interface
     }
 
 
-
+    // Constructor
     public void initialStartup()
     {
         calculations = new Calculations();
         analysis = new Analysis();
         exportData = new ExportData();
-
 
         setupDatabase();
 
@@ -60,6 +57,10 @@ public class APP_Layer implements APP_Layer_Interface
         analysis.sectorDirectionAndScoreAnalysis(numberOfPatterns, calculations, dataLayer);
 
         analysis.directionOfSectorForDistanceFromTheMeanInStandardDeviationAnalysis(numberOfCollections, numberOfPatterns, calculations, dataLayer);
+
+        System.out.println("\nFinished");
+
+
     }
 
 
@@ -111,8 +112,6 @@ public class APP_Layer implements APP_Layer_Interface
         boolean isItTheFirstSectorIOP = true;
         boolean isItTheFirstSectorIOPAllInOneFile = true;
         boolean isItTheFirstSectorIOPCollection = true;
-
-
 
         String filepath;
         String filepathAllInOneFile;
@@ -168,20 +167,15 @@ public class APP_Layer implements APP_Layer_Interface
                     // Gets the standard deviation
                     standardDeviation = calculations.calculateSD(listOfIOPValues, mean);
 
-                    //System.out.println("Pattern: " + pattern + " - Sector: " + sector + " - Standard Deviation: " + standardDeviation);
-
                     // Inserts the standard deviation into the db table sectorData
                     if (!dataLayer.storeSectorStandardDeviationAndMean(pattern, sector, standardDeviation, mean))
                     {
                         System.out.println("Error inserting standard deviation data");
                     }
 
-
-
                     isItTheFirstSectorIOP = true;
                 }
             }
-
             System.out.println("Exported Data to CSV Files: Completed");
         }
         else
@@ -208,11 +202,8 @@ public class APP_Layer implements APP_Layer_Interface
                         }
 
                         exportData.exportDataToCSV(filepathCollection, pattern, sector, value);
-
-
                     }
                 }
-
                 isItTheFirstSectorIOPCollection = true;
             }
         }
@@ -247,13 +238,13 @@ public class APP_Layer implements APP_Layer_Interface
 
                 if (!dataLayer.storeSectorIndexOfDifficultyAndDistanceAndDirection(pattern, (( j / 2 ) + 1), distance, roundedIndexOfDifficulty, direction))
                 {
-                    System.out.println("Error adding Index of Difficulty to the DB for Pattern: " + pattern + " - Sector: " + (( j / 2 ) + 1));
+                    System.out.println("Error adding Index of Difficulty or Distance to the DB for Pattern: " + pattern + " - Sector: " + (( j / 2 ) + 1));
                     isSetupOk = false;
                 }
 
                 listOfIndexOfDifficulty.add((double) (Integer) pattern);
                 listOfIndexOfDifficulty.add((double) (Integer) (( j / 2 ) + 1));
-                listOfIndexOfDifficulty.add(indexOfDifficulty);
+                listOfIndexOfDifficulty.add(roundedIndexOfDifficulty);
 
                 isItTheFirstSector = false;
             }
@@ -354,7 +345,6 @@ public class APP_Layer implements APP_Layer_Interface
 
         oldY = y;
         return direction;
-
     }
 
     // Calls the method `addNewDatabaseTables` from the datalayer
@@ -384,5 +374,4 @@ public class APP_Layer implements APP_Layer_Interface
 
         System.out.println("Number of Patterns: " + numberOfPatterns);
     }
-
 }

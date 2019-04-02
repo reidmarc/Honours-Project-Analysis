@@ -14,7 +14,7 @@ public interface DATA_Layer_Interface
 
     double getSectorMean(int pattern, int sector);
 
-    double getTotalStandardDeviationScore(int pattern, int sector);
+    double getTotalIP(int pattern, int sector);
 
     String getSectorDirection(int pattern, int sector);
 
@@ -26,7 +26,7 @@ public interface DATA_Layer_Interface
 
     ArrayList getPatternCoords(int patternNo);
 
-    boolean storeTotalStandardDeviationScore(int pattern, int sector, double totalStandardDeviationScore);
+    boolean storeIPTotal(int pattern, int sector, double totalStandardDeviationScore);
 
     boolean storeUserIndexOfPerformance(int collection, int pattern, int sector, double indexOfPerformance);
 
